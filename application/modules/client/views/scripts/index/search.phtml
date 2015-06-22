@@ -1,0 +1,45 @@
+<div style="width:1000px;height:600px;">
+ <div class="header">Client</div>
+    <form id="search_client" name="search_client" action="" method="POST">
+		Email Address<input type="text" name="search" id="search" />
+		<input type="submit" name="submit" value="search">
+	</form>
+	<?php if(count($this->searchData)!=0){ ?>
+	<div class="basGrid">
+	<table align="center" cellspacing="0" cellpadding="0">
+	<thead>
+		<tr>
+			
+			<th>First Name</th>
+			<th>Last Name</th>
+			<th>Email-Address</th>
+			<th>Date Of Birth</th>
+			<th>Address</th>
+			<th>Phone</th>
+			<th>SIN Number</th>
+			<th>&nbsp;</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr>
+			<td><?php echo $this->searchData['first_name'];?></td>
+			<td><?php echo $this->searchData['last_name'];?></td>
+			<td><?php echo $this->searchData['email_address'];?></td>
+			<td><?php echo $this->searchData['date_of_birth'];?></td>
+			<td><?php echo $this->searchData['address'];?></td>
+			<td><?php echo $this->searchData['phone_number'];?></td>
+			<td><?php echo $this->searchData['sin_number'];?></td>
+			<td><a href="<?php echo $this->baseUrl();?>/client/index/edit/pid/<?php echo $this->searchData['pid'];?>/t/<?php   echo $this->searchData['t'];?>">ADD</a></td>
+		</tr>
+		</tbody>
+	</table>
+	</div>
+	<?php }else{ ?>
+	 <a href="<?php echo $this->baseUrl();?>/client/index/edit">ADD</a>
+	<?php }?>
+</div>
+<script>$('form#search_client').parsley();
+    $(document).ready(function(){
+    
+    $('#search').attr('data-parsley-type','email');
+});</script>

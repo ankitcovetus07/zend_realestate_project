@@ -1,0 +1,42 @@
+<?php
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+?><script src="http://parsleyjs.org/dist/parsley.js"></script>
+<form data-parsley-validate action="/public/project/index/addbank" method="post" id="editbank">
+<div id="bank_details" class="basGrid" >
+   
+    <table style="margin:10px;  float: left; width:430px;" >
+        <thead>
+            <tr>
+                <th colspan="2"><?php 
+                                    if($this->v[0]->id>0){ echo 'Update';}else{echo 'Add New'; } ?>
+                                     Bank details</th>    
+            </tr>
+        </thead>
+ 
+        <tbody>
+        <input type="hidden" name="bankid" value="<?php echo ($this->v[0]->id?$this->v[0]->id:'');?>">
+        <input type="hidden" name="pid" value="<?php echo $this->ProjectId;?>">
+            <tr><td>Nickname*</td><td><input required   value="<?php echo ($this->v[0]->nickname?$this->v[0]->nickname:'');?>" type="text" name="nickname"></td></tr>
+            <tr><td>Name of Bank/Trust Company*</td><td><input required type="text" value="<?php echo ($this->v[0]->name_of_bank_trust_company?$this->v[0]->name_of_bank_trust_company:'');?>" name="name_of_bank_trust_company"></td></tr>
+            <tr><td>Branch Address*</td><td><input type="text" name="branch_address" value="<?php echo ($this->v[0]->branch_address?$this->v[0]->branch_address:'');?>"></td></tr>
+            <tr><td>Branch Phone Number</td><td><input data-parsley-type="digits" type="text" value="<?php echo ($this->v[0]->branch_phone_number?$this->v[0]->branch_phone_number:'');?>" name="branch_phone_number"></td></tr>
+            <tr><td>Branch Fax Number</td><td><input data-parsley-type="digits" type="text" value="<?php echo ($this->v[0]->branch_fax_number?$this->v[0]->branch_fax_number:'');?>" name="branch_fax_number"></td></tr>
+            <tr><td>Branch Contact Person</td><td><input  type="text" value="<?php echo ($this->v[0]->branch_contact_person?$this->v[0]->branch_contact_person:'');?>" name="branch_contact_person"></td></tr>
+            <tr><td>Transit Number</td><td><input data-parsley-type="alphanum" type="text" value="<?php echo ($this->v[0]->transit_number?$this->v[0]->transit_number:'');?>" name="transit_number"></td></tr>
+            <tr><td>Account Number</td><td><input data-parsley-type="digits" type="text" value="<?php echo ($this->v[0]->account_number?$this->v[0]->account_number:'');?>" name="account_number"></td></tr>
+            <tr><td></td><td><input class="btn btn-success" name="button" type="submit" value="Submit"><a onclick="resetform()" style="margin-left:10px;" class="btn btn-danger">Cancel</a></td></tr>
+        </tbody>
+    </table>
+</div>
+</form>
+<script>
+   function resetform()
+   {
+       $('input[type=text]').val('');
+   }
+</script>

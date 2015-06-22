@@ -1,0 +1,22 @@
+<div style="width:1000px;height:600px;">
+    <?php #print_r($_REQUEST)?>
+    <div class="header">Purchaser List </div>
+<?php $rights=explode(',',$_SESSION['Zend_Auth'][storage]->rights);
+				if(!in_array(34, $rights) ){ ?>
+<form method="post" id="projectlistform" >
+<select name="projectlist" id="projectlist">
+<option value="0">All</option> 
+        <?php foreach($this->projectList as $project):?> 
+            <option <?php if($_REQUEST['projectlist']==$project->id){ echo 'selected';}?> value= "<?php echo $project->id?>"><?php echo $project->name?></option>
+        <?php endforeach; ?>
+</select></form>
+    <?php } echo $this->headScript(); echo $this->grid; ?>
+    <?php //echo $this->projectList; ?>
+</div>
+<script>
+$(document).ready(function(){
+    $("#projectlist").change(function(){
+        $("#projectlistform").submit();
+    });
+});
+</script>

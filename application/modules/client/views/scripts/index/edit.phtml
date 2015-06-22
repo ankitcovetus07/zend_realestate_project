@@ -1,0 +1,351 @@
+<script src="http://parsleyjs.org/dist/parsley.js"></script>
+<?php if(Zend_Controller_Front::getInstance()->getRequest()->getParam('id')=='') : ?>
+<div class="header">Add Purchaser Information</div>
+<?php else : ?>
+<div class="header">Edit Purchaser Information</div>
+<?php endif; ?>
+<div width="100%">
+<form onsubmit="return validatesproject()" method="post" action="<?php echo $this->baseUrl(); ?>/client/index/save">
+<?php 
+echo $this->clientForm->$clientId; 
+echo $this->clientForm->created_by; 
+?>
+<div class="basGrid" style="width:48%;float:left;" >
+    <table>
+        <thead>
+            <th colspan="2">Suite Information</th>
+        </thead>
+        <tr>
+            <?php echo $this->clientForm->id; ?>
+            <td><?php echo $this->clientForm->project_id->getLabel();?></td>
+            <td><?php echo $this->clientForm->project_id;?></td>
+        </tr>
+        <tr>
+            <td><?php echo $this->clientForm->suit_number->getLabel();?></td>
+            <td><?php echo $this->clientForm->suit_number?></td>
+        </tr>
+        <tr>
+            <td><?php echo $this->clientForm->suit_unit_number->getLabel();?></td>
+            <td><?php echo $this->clientForm->suit_unit_number?></td>
+        </tr>
+        <tr>
+            <td><?php echo $this->clientForm->suit_level->getLabel();?></td>
+            <td><?php echo $this->clientForm->suit_level?></td>
+        </tr>
+        <tr>
+            <td><?php echo $this->clientForm->parking_number->getLabel();?></td>
+            <td><?php echo $this->clientForm->parking_number?></td>
+        </tr>
+		<tr>
+            <td><?php echo $this->clientForm->parking_unit_number->getLabel();?></td>
+            <td><?php echo $this->clientForm->parking_unit_number?></td>
+        </tr>
+		<tr>
+            <td><?php echo $this->clientForm->parking_level_number->getLabel();?></td>
+            <td><?php echo $this->clientForm->parking_level_number?></td>
+        </tr>
+		<tr>
+            <td><?php echo $this->clientForm->locker_number->getLabel();?></td>
+            <td><?php echo $this->clientForm->locker_number?></td>
+        </tr>
+		<tr>
+            <td><?php echo $this->clientForm->locker_unit_number->getLabel();?></td>
+            <td><?php echo $this->clientForm->locker_unit_number?></td>
+        </tr>
+		<tr>
+            <td><?php echo $this->clientForm->locker_level_number->getLabel();?></td>
+            <td><?php echo $this->clientForm->locker_level_number?></td>
+        </tr>
+		<tr>
+            <td><?php echo $this->clientForm->purchase_price->getLabel();?></td>
+            <td><?php echo $this->clientForm->purchase_price; ?></td>
+        </tr>
+        <tr>
+            <td><?php echo $this->clientForm->purchase_date->getLabel();?></td>
+            <td><?php echo $this->clientForm->purchase_date; ?></td>
+        </tr>
+		<tr>
+            <td><?php echo $this->clientForm->terminate->getLabel();?></td>
+            <td><?php echo $this->clientForm->terminate; ?></td>
+        </tr>
+       
+    </table>
+	<?php if(Zend_Controller_Front::getInstance()->getRequest()->getParam('id')==''){ ?>
+	
+	<div style="clear:both;">&nbsp;</div>
+	<table style="display: none;">
+        <thead>
+            <th colspan="2">Payee Details</th>
+        </thead>
+        <tr>
+			 <td><?php echo $this->clientForm->amount->getLabel();?></td>
+            <td><?php echo $this->clientForm->amount;?></td>
+        </tr>
+        <tr>
+            <td><?php echo $this->clientForm->payment_method->getLabel();?></td>
+            <td><?php echo $this->clientForm->payment_method; ?></td>
+        </tr>
+         <tr>
+            <td id="labelPaymentNumber"><?php echo $this->clientForm->cheque_number->getLabel();?></td>
+            <td><?php echo $this->clientForm->cheque_number; ?></td>
+        </tr>
+		 <tr>
+            <td id="labelPaymentDate"><?php echo $this->clientForm->payment_date->getLabel();?></td>
+            <td><?php echo $this->clientForm->payment_date ;?></td>
+        </tr>
+        <tr>
+            <td><?php echo $this->clientForm->payment_type->getLabel();?></td>
+            <td><?php echo $this->clientForm->payment_type; ?></td>
+        </tr>
+	
+ 	</table>
+	<?php } ?>
+	<table>
+ <tr style="background-color: white;">
+     <td colspan="2" align="center"><?php echo $this->clientForm->submit; ?><a onclick="resetform()"  style="margin-left:10px;" class="btn btn-danger">Cancel</a>
+         
+     </td>
+        </tr>
+	</table>	
+</div>
+    
+    
+    
+<div style="float:right;width:50%"  class="basGrid">
+	<table>
+        <thead>
+            <th colspan="2">Purchaser Personal Details</th>
+        </thead>
+		<tr>
+            <td><?php echo $this->clientForm->type->getLabel();?></td>
+            <td><?php echo $this->clientForm->type; ?></td>
+        </tr>
+        <tr>
+            <td id="labelfirstname"><?php echo $this->clientForm->first_name->getLabel();?></td>
+            <td><?php echo $this->clientForm->first_name;?></td>
+        </tr>
+        <tr id="lastnametr">
+            <td id="labellastname"><?php echo $this->clientForm->last_name->getLabel();?></td>
+            <td><?php echo $this->clientForm->last_name ;?></td>
+        </tr>
+        <tr>
+            <td><?php echo $this->clientForm->email_address->getLabel();?></td>
+            <td><?php echo $this->clientForm->email_address; ?></td>
+        </tr>
+        <tr>
+            <td><?php echo $this->clientForm->phone_number->getLabel();?></td>
+            <td><?php echo $this->clientForm->phone_number;?></td>
+        </tr>
+        <tr>
+            <td><?php echo $this->clientForm->date_of_birth->getLabel();?></td>
+            <td><?php echo $this->clientForm->date_of_birth; ?></td>
+        </tr>
+		<tr>
+            <td><?php echo $this->clientForm->address->getLabel();?></td>
+            <td><?php echo $this->clientForm->address; ?></td>
+        </tr>
+		
+		<tr>
+            <td><?php echo $this->clientForm->sin_number->getLabel();?></td>
+            <td><?php echo $this->clientForm->sin_number; ?></td>
+        </tr>
+        </tr>   
+		
+		<tr class="corp">
+            <td>Authorized Signing Officer</td>
+            <td><?php echo $this->clientForm->authorized_signing_officer; ?></td>
+        </tr>
+        </tr>
+		
+		<tr class="corp">
+            <td>Title</td>  
+            <td><?php echo $this->clientForm->title; ?></td>
+        </tr>
+		
+    </table>
+    
+    
+    </div>
+
+    <?php #if(Zend_Controller_Front::getInstance()->getRequest()->getParam('id')==''): ?>
+    <br>
+    <div style="width: 50%; float: right;">
+    <div class="basGrid">
+    
+        <?php echo $this->render('index/secondary-purchaser-form.phtml'); ?>
+    </div>
+    
+    <div id="secondarypurchaserlist" class="basGrid"> 
+    <a id="add"><img src="<?php echo $this->baseUrl(); ?>/add-button-hi.png" width="20"></a>
+    &nbsp;&nbsp;<a id="remove"><img src="<?php echo $this->baseUrl(); ?>/free-vector-remove_101828_remove.png" width="20"></a>
+        <?php echo $this->render('index/secondary-purchaser.phtml'); ?>
+    </div>
+    <?php #endif; ?>
+    </div>
+	</form>
+
+<?php 
+echo $this->clientForm->id; 
+echo $this->clientForm->created_by; 
+?>
+</div>
+<script>
+ $(document).ready(function () {
+            $('#submit').attr('class','btn btn-success');
+        });
+        
+   
+   function resetform()
+   {
+        $('input[type=text],input[type=password]').val('');
+       
+   }
+</script>
+</script>
+<style>
+   .corp{display:none;}
+   #submit-element{ float:left;}
+</style>
+<script>
+$(document).ready(function(){
+    $("#resetbut").click(function(){$('input[type=text]').val('');});
+    $('#purchaserPanels input,#purchaserPanels select').prop('disabled', true);
+    $("#add").click(function(){
+       i=$('.test').length;
+        box='<div class="test" id="purchaser'+i+'"></div>';
+        htmls=$("#purchaserPanels").html();
+        $('#show_purchase').append(box);
+        ids="#purchaser"+i;
+        $(ids).html(htmls);
+        
+        $(ids+" input,"+ids+" select").prop('disabled', false)
+        $idss="closer('"+ids+"')";
+         
+        $(ids+" .close").attr("onclick", $idss);
+        i++; 
+    });
+    $("#remove").click(function(){
+      i=$('.test').length-1;
+      ids="#purchaser"+i;
+       $(ids).remove();
+        i--; 
+    });
+});
+function closer(i)
+{
+    $(i).remove();
+}
+$(document).ready(function() {
+	// validate the comment form when it is submitted
+	// validate signup form on keyup and submit
+	 $( "#date_of_birth" ).datepicker({ dateFormat: 'yy-mm-dd' });
+	 $( "#payment_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
+	 $( "#purchase_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
+	/*$("#proejctform").validate({
+		rules: {
+			name: "required"
+		},
+		messages: {
+			name: "Please enter Project Name"
+			
+		}
+	});*/
+	});
+$("#payment_method").change(function(){
+   changeLabel($(this).val());
+});
+$("#type").change(function(){
+   labelChange($(this).val());
+});
+
+function labelChange(label){
+	if(label == 'trustee'){
+		$("#lastnametr").show();
+       $("#labelfirstname").html("Trustee First Name");
+       $("#labellastname").html("Trustee Last Name");
+       $(".corp").hide();
+   }
+   if(label == 'corporation'){
+       $(".corp").show();
+       $("#lastnametr").hide();
+       $("#labelfirstname").html("Name of Corporation");
+       
+   }
+   if(label == 'individual'){
+       $("#lastnametr").show();
+       $("#labelfirstname").html("First Name");
+       $("#labellastname").html("Last Name");
+       $(".corp").hide();
+   }
+}
+
+function changeLabel(label)
+{
+    if(label == 'visa'){
+       $("#labelPaymentNumber").html("CVV Code");
+       $("#labelPaymentDate").html("Expiry date:");
+   }
+   if(label == 'cheque'){
+       $("#labelPaymentNumber").html("Cheque #");
+       $("#labelPaymentDate").html("Cheque date:");
+   }
+   if(label == 'bank_wire'){
+       $("#labelPaymentNumber").html("Bank wire I.D.");
+       $("#labelPaymentDate").html("Transaction date:");
+   }
+}
+changeLabel($("#payment_method").val());
+</script>
+<script type="text/javascript">
+    
+    function addSecondaryPurchaser() {
+        alert('hi');
+       $.ajax ({
+           type:'post',
+           data: $('#frmPurchaser').serialize(),
+           url:'<?php echo $this->baseUrl();?>/client/index/add-secondary-purchaser',
+           success: function(res){
+               if ($.isNumeric(res)){
+                   refreshSecondaryPurchaser();
+               }
+           }
+       });
+       
+    }
+    
+    function refreshSecondaryPurchaser() 
+    {
+        $.ajax ({
+            type: "post",
+            data: {clientId:'<?php echo $this->client->id;?>'},
+            url: '<?php echo $this->baseUrl();?>/client/index/secondary-purchaser',
+            success:function(res){
+                $("#purchaserPanel").css("display", "none");
+                $('#secondarypurchaserlist').html(res);
+            }
+        });
+    }
+    $('form').parsley();
+   $(document).ready(function(){
+       $('#email_address,#email_address_sec').attr('data-parsley-type','email');
+       $('#email_address,#first_name').attr('data-parsley-required','true');
+   });
+</script>
+<style>.test{margin-top:10px;}
+#resetbut{background: #feffff; /* Old browsers */
+background: -moz-linear-gradient(top,  #feffff 0%, #ddf1f9 35%, #a0d8ef 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#feffff), color-stop(35%,#ddf1f9), color-stop(100%,#a0d8ef)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #feffff 0%,#ddf1f9 35%,#a0d8ef 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #feffff 0%,#ddf1f9 35%,#a0d8ef 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #feffff 0%,#ddf1f9 35%,#a0d8ef 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #feffff 0%,#ddf1f9 35%,#a0d8ef 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffff', endColorstr='#a0d8ef',GradientType=0 ); /* IE6-9 */
+ border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 5px 5px #eee;
+    cursor: pointer;
+    display: block;
+    font-family: arial;
+    margin: 14px 141px;
+    padding: 3px 9px;
+    text-align: center;}</style>

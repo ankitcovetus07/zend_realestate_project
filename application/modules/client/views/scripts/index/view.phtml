@@ -1,0 +1,191 @@
+<div class="header">Purchaser Information</div>
+<div>
+<?php
+$auth = Zend_Auth::getInstance();
+if($this->client->status=="active" && $auth->getIdentity()->type!="salesagent") { 
+?>
+<a href='<?php echo $this->baseUrl(); ?>/client/index/verify/client/<?php echo $this->client->id; ?>'>Lock Client</a>
+<?php } ?>
+<?php
+if($this->client->status=="dective" && $auth->getIdentity()->type!="salesagent" ) { 
+?>
+<a href='<?php echo $this->baseUrl(); ?>/client/index/verify/client/<?php echo $this->client->id; ?>'>Unlock Client</a>
+<?php } ?>
+</div>
+<div width="100%">
+<div class="basGrid" style="width:50%;float:left;" >
+    <table class="table">
+        <thead>
+            <th colspan="2">Suite Information</th>
+            
+        </thead>
+		<tr>
+            <td>Project</td>
+            <td><?php echo $this->client->project_name;?></td>
+        </tr>
+        <tr>
+            <td>Suite #</td>
+            <td><?php echo $this->client->suit_number?></td>
+        </tr>
+        <tr>
+            <td>Unit #</td>
+            <td><?php echo $this->client->suit_unit_number?></td>
+        </tr>
+        <tr>
+            <td>Suite Level</td>
+            <td><?php echo $this->client->suit_level?></td>
+        </tr>
+        <tr>
+            <td>Park #</td>
+            <td><?php echo $this->client->parking_number?></td>
+        </tr>
+		<tr>
+            <td>Park Unit #</td>
+            <td><?php echo $this->client->parking_unit_number?></td>
+        </tr>
+		<tr>
+            <td>Park Level #</td>
+            <td><?php echo $this->client->parking_level_number?></td>
+        </tr>
+		<tr>
+            <td>Locker #</td>
+            <td><?php echo $this->client->locker_number?></td>
+        </tr>
+		<tr>
+            <td>Locker Unit #</td>
+            <td><?php echo $this->client->locker_unit_number?></td>
+        </tr>
+		<tr>
+            <td>Locker Level #</td>
+            <td><?php echo $this->client->locker_level_number?></td>
+        </tr>
+		<tr>
+            <td>Purchase Price $	
+</td>
+            <td>$<?php echo $this->client->purchase_price; ?></td>
+        </tr>
+        <tr>
+            <td>Purchase Date 	
+</td>
+            <td><?php echo $this->client->purchase_date; ?></td>
+        </tr>
+        <tr>
+            <td>Terminated 	
+</td>
+            <td><?php echo $this->client->terminate; ?></td>
+        </tr>
+        
+    </table>
+</div>
+	<div style="float:right;width:50%"  class="basGrid">
+		<table  class="table">
+			<thead>
+				<th colspan="2">Purchaser Personal Details</th>
+				
+			</thead>
+                        <tr>
+				<td>Type</td>
+                                <td style="text-transform: capitalize"><?php echo $this->client->type;?></td>
+			</tr>
+			<tr>
+				<td>First Name </td>
+				<td><?php echo $this->client->first_name;?></td>
+			</tr>
+                        <tr>
+				<td>Last Name </td>
+				<td><?php echo $this->client->last_name ;?></td>
+			</tr>
+			<tr>
+				<td>E-mail</td>
+				<td><?php echo $this->client->email_address; ?></td>
+			</tr>
+			<tr>
+				<td>Phone #</td>
+				<td><?php echo $this->client->phone_number;?></td>
+			</tr>
+			<tr>
+				<td>Date Of Birth </td>
+				<td><?php echo $this->client->date_of_birth; ?></td>
+			</tr>
+                        <tr>
+				<td>Current Mailing Address</td>
+				<td><?php echo $this->client->address; ?></td>
+			</tr>
+                        <tr>
+				<td>Social Insurance Number</td>
+				<td><?php echo $this->client->sin_number; ?></td>
+			</tr>
+		</table>
+                <div></div>
+                <?php echo $this->render('index/secondary-purchaser-form.phtml'); ?>
+                <br>
+                <div id="secondarypurchaserlist view-mode">
+                    <?php echo $this->render('index/secondary-purchaser.phtml'); ?>
+                </div>
+	</div>
+</div>
+<div style="clear:both;">&nbsp;</div>
+<div>
+	<div class="basGrid" style="width:45%;float:left;">
+	 <?php
+
+if($this->client->status!='deactive'){
+?>
+  <a href="<?php echo $this->url(array('module' => 'payment','controller' => 'index','action' => 'edit','project_id'=>$this->client->project_id,'client_id'=>$this->client->id,'suit'=>$this->client->suit_number),'default', true);?>" class="add_payment"> Add Payment </a>
+<?php 
+  } 
+ ?>
+
+	 <?php echo $this->grid; ?>
+	</div>
+	<div class="basGrid" style="width:45%;float:right;">
+	<?php if($auth->getIdentity()->type!="salesagent"){ ?>  
+		 <?php
+
+if($this->client->status!='deactive'){
+?>
+     <a href="<?php echo $this->url(array('module' => 'payment','controller' => 'index','action' => 'withdrawedit','project_id'=>$this->client->project_id,'client_id'=>$this->client->id,'suit'=>$this->client->suit_number),'default', true);?>" class="add_withdraw"> Add Release  </a>
+<?php 
+  } 
+ ?>
+	 <?php }else { ?> <br/> <?php } ?>
+	 <?php echo $this->withdrawgrid; ?>
+	</div>
+</div>
+<script type="text/javascript">
+    
+    function addSecondaryPurchaser() {
+       $.ajax ({
+           type:'post',
+           data: $('#frmPurchaser').serialize(),
+           url:'/eportal/public/client/index/add-secondary-purchaser',
+           success: function(res){
+               if ($.isNumeric(res)){
+                   refreshSecondaryPurchaser();
+               }
+           }
+       });
+       
+    }
+    
+    function refreshSecondaryPurchaser() 
+    {
+        $.ajax ({
+            type: "post",
+            data: {clientId:'<?php echo $this->client->id;?>'},
+            url: '/eportal/public/client/index/\n\
+',
+            success:function(res){
+                $("#purchaserPanel").css("display", "none");
+                $('#secondarypurchaserlist').html(res);
+            }
+        });
+    }
+    $(document).ready(function(){
+      
+           ($('#del').hide());
+              ($('#edit').hide());
+       
+    });
+    </script>
+    <style>body .basGrid .view_mode td a{display:none !important;}</style> 

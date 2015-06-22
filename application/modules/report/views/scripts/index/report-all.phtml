@@ -1,0 +1,14 @@
+<div class="header">
+    <span style="float:left;">
+        <a style="display:none;" href="<?php echo $this->baseUrl();?>/report/pdf/index"><img src="<?php echo $this->baseUrl();?>/images/pdf.png"/></a>&nbsp;
+            <a href="<?php echo $this->baseUrl();?>/report/csv/index2"><img src="<?php echo $this->baseUrl();?>/images/xls.png"/></a>&nbsp;
+    </span>
+</div> 
+
+<?php echo $this->render('pdf/index.phtml');?>
+<script>$(document).ready(function(){
+    $("#projectlist").change(function(){
+        $("#projectlistform").submit();
+    });
+});
+</script>

@@ -1,0 +1,7 @@
+<div style="width:100%;">
+    <div class="header">Client Report<span style="float:left;">
+            <a  style="display:none;"  href="<?php echo $this->baseUrl();?>/client/report?type=pdf"><img src="<?php echo $this->baseUrl();?>/images/pdf.png"/></a>&nbsp;
+            <a href="<?php echo $this->baseUrl();?>/client/report?type=csv"><img src="<?php echo $this->baseUrl();?>/images/xls.png"/></a></span>
+    </div>    
+    <?php echo $this->headScript(); echo $this->grid; ?>
+</div>

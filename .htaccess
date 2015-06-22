@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Admin"
+AuthUserFile "/home1/laxit/.htpasswds/public_html/sacondo/passwd"
+require valid-user

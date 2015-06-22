@@ -1,0 +1,177 @@
+.panelTitle {
+    margin-top: 35px;
+}
+.basGrid {
+    position: relative;
+    margin-top: 20px;
+}
+.basGrid table {
+    width: 100%;
+    border-left: 1px solid #ccc;
+    border-right: 0;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+.basGrid table tr {
+    border-bottom: solid 1px #e5e5e5;
+}
+.basGrid thead tr {
+    background:#800000;
+    color:#fff;
+}
+.basGrid thead tr th a{
+    color:#ffffff;
+}
+.basGrid table tr th, .basGrid table tr td{
+    border-right: solid 1px #e5e5e5;
+    padding:8px 4px 4px !important;
+    /*text-align:center;*/
+    font-size:13px;
+}
+.basGrid table tr th a, .basGrid table tr td a{ text-decoration:none;}
+.basGrid tbody tr.filters {
+    background:#bfbfbf;
+}
+.basGrid tbody tr {
+    background: #E5E5E5;
+}
+.basGrid tbody tr.alt td {
+    background: #FFFFFF;
+}
+.basGrid #perPage{
+    top: -20px; 
+    right: 5px; 
+    position: absolute
+}
+.basGrid .gridpaging{
+    position: relative; 
+    padding: 5px;
+}
+.basGrid .gridpaging #numberRecords{
+    position: absolute; 
+    right: 5px;
+}
+.basGrid .gridpaging #pageSelect{
+    margin-bottom: 5px;
+}
+#pagination a {
+    padding:2px;
+    text-align:center;
+}
+.widthClass{
+    width:20px;
+}
+.basGrid input[type="text"], .basGrid select{
+    border: 1px solid #000;
+}
+.basGrid table input[type="checkbox"]{
+    margin: 0 15px
+}
+.smallTextFilters{
+    width: 100px;
+    margin-left: 5px;
+} 
+.mediumTextFilters{
+    width: 100px;
+}
+.bigTextFilters{
+    width: 100%;
+}
+.widthColumn{
+    width:40px;
+}
+.basGrid table tr td{
+    vertical-align: top;
+}
+#searchFilter{
+    text-align: center;
+}
+#searchFilter button{
+    font-size: 11px;
+}
+.basGrid .productTitle div{
+    width: 150px; 
+    float: left; 
+    word-wrap: break-word;
+}
+.basGrid .productDescription div{
+    width: 250px; 
+    float: left; 
+    word-wrap: break-word;
+}
+.basGrid .productCountries div{
+    width: 100px; 
+    float: left; 
+    word-wrap: break-word;
+}
+.basGrid .productIncoterm div{
+    width: 100px; 
+    float: left; 
+    word-wrap: break-word;
+}
+.basGridContainer {
+    padding: 20px;
+    border: solid 1px #ccc;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    margin-bottom: 10px;
+    float: left;
+}
+.rightImage{
+    float: right;
+    height: 20px;
+}
+.title{
+    font-size: 22px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+#spinner {
+    border: solid 1px #999;
+    position: absolute;
+    display: none;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: #FFFFFF;
+    opacity: 0.85;
+    /* IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=25)";
+    /* Netscape */
+    -moz-opacity: 0.85;
+    /* Safari 1.x */
+    -khtml-opacity: 0.85;
+    background: url(/vbd/public/images/indicator.gif) 50% 50% no-repeat #ede9df;
+}
+.error, label.error {
+color: red;
+font-style: italic;
+}
+.header{
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.listHeader{
+    font-size: 18px;
+    font-weight: bold;
+    color:white;
+}
+.listItem{
+    font-size: 16px;
+    font-weight: bold;
+   
+}
+.deactive{
+    display: none;
+}
+.basGrid tbody tr.total td {
+    background: #ccc;
+    font-weight: bold;
+    text-align: right;
+}

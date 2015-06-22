@@ -1,0 +1,180 @@
+<script src="http://parsleyjs.org/dist/parsley.js"></script><h1 style="font-size: 19px; font-family: arial; background: none repeat scroll 0% 0% rgb(132, 0, 0); margin: 0px; color: rgb(255, 255, 255); padding: 6px;">Add Project</h1><?php
+$rights = explode(",", Zend_Auth::getInstance()->getIdentity()->rights);
+if (in_array(22, $rights) || Zend_Auth::getInstance()->getIdentity()->type == "superadmin") {
+    ?> <form data-parsley-validate method="post" action="/public/project/index/save" enctype="application/x-www-form-urlencoded" id="proejctform">
+    <div class="basGrid" style="width:1000px">
+        <a id="addnew">+ Add New Bank Detail</a><br>
+        <div style="float: left">
+           
+                <input type="hidden" id="id" value="" name="id">
+                <input type="hidden" id="created_by" value="0" name="created_by">
+                <table border="0">
+                    <tbody>
+                        <tr>
+                            <td id="name-label">
+                                <label class="required" for="name">Project Name</label>
+                            </td>
+                            <td>
+                                <input type="text" required size="50" value="" id="name" name="name">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="address-label">
+                                <label class="required" for="address">Address</label>
+                            </td>
+                            <td>
+                                <input required type="text" size="30" value="" id="address" name="address">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="project_type-label">
+                                <label class="optional" for="project_type">Type</label>
+                            </td>
+                            <td>
+                                <select id="project_type" name="project_type">
+                                    <option label="Select" value="0">Select</option>
+                                    <option label="Condo Building" value="condo_units">Condo Building</option>
+                                    <option label="Houses" value="town_houses">Houses</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="condo-label">
+                                <label class="optional" for="condo">Is this a Condo?</label>
+                            </td>
+                            <td>
+                                <select id="condo" name="condo">
+                                    <option label="Yes" value="yes">Yes</option>
+                                    <option label="No" value="no">No</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="status-label">
+                                <label class="optional" for="status">Status</label>
+                            </td>
+                            <td>
+                                <select id="status" name="status">
+                                    <option label="Active" value="active">Active</option>
+                                    <option label="Deactive" value="deactive">Deactive</option>
+                                </select>
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td id="dwellingunits-label">
+                                <label class="required" for="dwellingunits">Dwelling Units</label>
+                            </td>
+                            <td>
+                                <input  data-parsley-type="digits" type="text" size="50" value="" id="dwellingunits" name="dwellingunits">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="numberofparking-label">
+                                <label class="required" for="numberofparking">Parking Unit</label>
+                            </td>
+                            <td>
+                                <input  data-parsley-type="digits" type="text" size="50" value="" id="numberofparking" name="numberofparking">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="numberstorage-label">
+                                <label class="required" for="numberstorage">Storage Unit</label>
+                            </td>
+                            <td>
+                                <input  data-parsley-type="digits" type="text" size="50" value="" id="numberstorage" name="numberstorage">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" colspan="2">
+                                <input type="submit" value="submit" id="submit" name="submit"><a onclick="resetform()" style="margin-left:10px;" class="btn btn-danger">Cancel</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+        <div style="margin-left:10px; " >
+            <div   class="tables">
+            </div>
+            
+        </div>
+    </div>
+</form>
+    <style>dd,dt{display: none;}
+    #addnew{background: #e4f5fc; /* Old browsers */
+background: -moz-linear-gradient(top, #e4f5fc 0%, #9fd8ef 46%, #2ab0ed 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e4f5fc), color-stop(46%,#9fd8ef), color-stop(100%,#2ab0ed)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #e4f5fc 0%,#9fd8ef 46%,#2ab0ed 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #e4f5fc 0%,#9fd8ef 46%,#2ab0ed 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, #e4f5fc 0%,#9fd8ef 46%,#2ab0ed 100%); /* IE10+ */
+background: linear-gradient(to bottom, #e4f5fc 0%,#9fd8ef 46%,#2ab0ed 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e4f5fc', endColorstr='#2ab0ed',GradientType=0 ); /* IE6-9 */
+     border: 1px solid;
+    border-radius: 3px;
+    clear: both;
+    display: block;
+    font-family: arial;
+    padding: 5px;
+    width: 170px;
+    cursor: pointer;}</style>
+    <script>
+        $(document).ready(function () {
+            $('#submit').attr('class','btn btn-success');
+            $("#addnew").click(function () {
+                htmls = $("#bank_details").html();
+                x = Math.floor((Math.random() * 25000000) + 1);
+                var classs='.class'+x;
+                //alert(classs);
+                $("#bank_details div#close").attr('class','class'+x); 
+                $(classs).show();
+                v='hides("class'+x+'")';
+                $("#bank_details a#closes").attr('onclick',v);
+                $(".tables").before($("#bank_details").html());
+            })
+
+        });
+        function hides(i)
+        {
+            
+           var id='.basGrid .'+i;
+            
+            $(id).hide();
+            $(id).html('');
+            $(id).show();
+        }
+         function resetform()
+   {
+       $('input[type=text]').val('');
+   }
+    </script>
+
+
+<div id="bank_details" style="display: none" >
+    <div id="close" style="  float: left;  width: 435px;  position: relative;  top: -10px;">
+        <a style="text-align: right;  position: absolute;  top: 18px;  display: block;  right: 11px;  color: #fff;
+  font-family: arial;" id="closes" onclick="hides(this);">close</a>
+        <table style="margin:10px;  float: left; width:430px;" >
+        <thead>
+            <tr>
+                <th colspan="2">Add Bank details</th>   
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Nickname*</td><td><input required   type="text" name="nicname[]"></td></tr>
+            <tr><td>Name of Bank/Trust Company*</td><td><input required type="text" name="bank name[]"></td></tr>
+            <tr><td>Branch Address*</td><td><input type="text" name="branch_add[]"></td></tr>
+            <tr><td>Branch Phone Number</td><td><input data-parsley-type="digits" type="text" name="branch_ph[]"></td></tr>
+            <tr><td>Branch Fax Number</td><td><input data-parsley-type="digits" type="text" name="branch_fx_no[]"></td></tr>
+            <tr><td>Branch Contact Person</td><td><input data-parsley-type="alphanum" type="text" name="branch_contact_person_name[]"></td></tr>
+            <tr><td>Transit Number</td><td><input data-parsley-type="alphanum" type="text" name="transit_no[]"></td></tr>
+            <tr><td>Account Number</td><td><input data-parsley-type="digits" type="text" name="acc_no[]"></td></tr>
+
+        </tbody>
+        </table>
+    </div>
+</div>
+    <?php } else { ?>
+    <div style="text-align:center;"><h1>You Have No Rights Edit This Project</h1></div>
+<?php } ?>

@@ -1,0 +1,53 @@
+<form method="post" action="<?php echo $this->baseUrl();?>/report/index/client">
+<table class="basGrid">
+    <tr>
+        <td>Project</td>
+        <td><select name="projectlist" id="projectlist">
+
+        <?php foreach($this->projectList as $project):?> 
+            <option <?php if($_REQUEST['projectlist']==$project->id){ echo 'selected';}?> value= "<?php echo $project->id?>"><?php echo $project->name?></option>
+        <?php endforeach; ?>
+</select></td>
+    </tr>
+    <tr>
+        <td>Suit number</td>
+        <td><input name="suit_number" type="text" /></td>
+    </tr>
+	<tr>
+        <td>Unit number</td>
+        <td><input name="suit_unit_number" type="text" /></td>
+    </tr>
+    <tr>
+        <td>First name</td>
+        <td><input name="first_name" type="text" /></td>
+    </tr>
+    <tr>
+        <td>Last name</td>
+        <td><input name="last_name" type="text" /></td>
+    </tr>
+    <td colspan="2">
+       <input type="submit" value="Search" />
+    </td>
+</table>
+</form>
+
+<?php if(count($this->clients) > 0):?>
+<table class="basGrid">
+    <thead>
+        <th>Suit Number</th>
+		<th>Unit Number</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Action</th>
+    </thead>
+    <?php foreach($this->clients as $client):?>
+    <tr>
+        <td><?php echo $client->suit_number;?></td>
+		<td><?php echo $client->suit_unit_number;?></td>
+        <td><?php echo $client->first_name;?></td>
+        <td><?php echo $client->last_name;?></td>
+        <td><a href="<?php echo $this->baseUrl();?>/report/index/client-preview?id=<?php echo $client->id?>"><img src="<?php echo $this->baseUrl();?>/images/text.png" /></a></td>
+    </tr>
+    <?php endforeach;?>
+</table>
+<?php endif;?>

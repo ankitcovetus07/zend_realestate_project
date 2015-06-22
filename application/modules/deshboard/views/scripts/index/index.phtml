@@ -1,0 +1,134 @@
+<?php $auth = Zend_Auth::getInstance();
+	  if(Zend_Auth::getInstance()->hasIdentity()){?>   
+                <table width="100%">
+				<?php $rights = explode(",",$auth->getIdentity()->rights); 
+				if (in_array(1, $rights)) { ?>
+                    <tr style="background-color:#800000">
+                        <td style="height:30px;"><span class="listHeader">User</span></td>
+                    </tr>
+				<?php } 
+if (in_array(12, $rights) || $auth->getIdentity()->type=="superadmin") { ?>
+                    <tr style="background-color:#E5E5E5">
+                        <td style="height:30px;">
+                            <div class="listItem">
+                                <a href="<?php echo $this->baseUrl(); ?>/user/index/list">Overview</a>
+                            </div>
+                        </td>
+                    </tr>
+                <?php } 
+                 if (in_array(11, $rights) || $auth->getIdentity()->type=="superadmin") { ?>
+                    <tr style="background-color:#E5E5E5">
+                        <td style="height:30px;">
+                            <span class="listItem">
+                                <a href="<?php echo $this->baseUrl(); ?>/user/index/edit"><img src="http://www.bit-exchange.net/wp-content/uploads/cloud-computing/cdnhub-content-delivery/Add-Male-User-icon.png"><br>Add</a>
+                            </span>
+                        </td>
+                    </tr>
+				<?php } 
+                 if (in_array(13, $rights) || $auth->getIdentity()->type=="superadmin") { ?>
+                    <tr style="background-color:#E5E5E5">
+                        <td style="height:30px;">
+                            <span class="listItem">
+                                <a href="<?php echo $this->baseUrl(); ?>/user/index/update-password" >Change password</a>
+                            </span>
+                        </td>
+                    </tr>
+				<?php 
+				 }
+				 if (in_array(2, $rights) || $auth->getIdentity()->type=="superadmin") { 
+				 ?>
+                    <tr style="background-color:#800000">
+                        <td style="height:30px;" ><span class="listHeader">Project</span></td>
+                    </tr>
+                 <?php } 
+				 if (in_array(22, $rights) || in_array(23, $rights) || $auth->getIdentity()->type=="superadmin") { 
+				 ?>
+                    <tr style="background-color:#E5E5E5">
+                        <td style="height:30px;">
+                            <span class="listItem">
+                                <a href="<?php echo $this->baseUrl(); ?>/project/index/list" >Overview</a>
+                            </span>
+                        </td>
+                    </tr>
+                  <?php } 
+				 if (in_array(21, $rights) || $auth->getIdentity()->type=="superadmin") { 
+				 ?>
+                    <tr style="background-color:#E5E5E5">
+                        <td style="height:30px;">
+                            <span class="listItem">
+                                <a href="<?php echo $this->baseUrl(); ?>/project/index/edit" >Add</a>
+                            </span>
+                        </td>
+                    </tr>
+                <?php }  
+				 if($auth->getIdentity()->type=="superadmin"){ 
+				 ?>
+						 <tr style="background-color:#E5E5E5">
+                        <td style="height:30px;">
+                            <span class="listItem">
+<a href="<?php echo $this->baseUrl(); ?>/project/index/tarion/id/1">Change Tarion</a></span>
+							
+                        </td>
+                    </tr>	
+                <?php } if (in_array(3, $rights) || $auth->getIdentity()->type=="superadmin") { ?>
+                    <tr style="background-color:#800000">
+                        <td style="height:30px;" ><span class="listHeader">Purchaser</span></td>
+                    </tr>
+                
+                <?php } if (in_array(32, $rights) || in_array(33, $rights) || $auth->getIdentity()->type=="superadmin") { ?>
+                    <tr style="background-color:#E5E5E5">
+                        <td style="height:30px;">
+                            <span class="listItem">
+                                <a href="<?php echo $this->baseUrl(); ?>/client/index/list" >Overview</a>
+                            </span>
+                        </td>
+                    </tr>
+                <?php } if (in_array(31, $rights) || $auth->getIdentity()->type=="superadmin") { ?>
+                    <tr style="background-color:#E5E5E5">
+                        <td style="height:30px;">
+                            <span class="listItem">
+                                <a href="<?php echo $this->baseUrl(); ?>/client/index/search" >Add</a>
+                            </span>
+                        </td>
+                    </tr>
+					<?php } if (in_array(4, $rights)) { ?>
+                    <tr style="background-color:#800000">
+                        <td style="height:30px;" ><span class="listHeader">Report</span></td>
+                    </tr>
+                    <?php } if (in_array(41, $rights) || $auth->getIdentity()->type=="superadmin") { ?>
+                    <tr style="background-color:#E5E5E5">
+                        <td style="height:30px;">
+                            <span class="listItem">
+                                <a href="<?php echo $this->baseUrl(); ?>/report/index/report-all" >Report All</a>
+                            </span>
+                        </td>
+                    </tr>
+                    <?php } if (in_array(43, $rights) || $auth->getIdentity()->type=="superadmin") { ?>
+                    <tr style="background-color:#E5E5E5">
+                        <td style="height:30px;">
+                            <span class="listItem">
+                                <a href="<?php echo $this->baseUrl(); ?>/report/index/client" >Purchaser Report</a>
+                            </span>
+                        </td>
+                    </tr>
+                    <?php } if (in_array(42, $rights) || $auth->getIdentity()->type=="superadmin") { ?>
+                    <tr style="background-color:#E5E5E5">
+                        <td style="height:30px;">
+                            <span class="listItem">
+                                <a href="<?php echo $this->baseUrl(); ?>/report/index/monthly" >Monthly Report</a>
+                            </span>
+                        </td>
+                    </tr>
+					<?php } ?>
+                </table>
+          <?php } ?>   
+            </td>
+            
+                <td colspan="2" style="vertical-align:top;padding-left:20px;">
+                <?php echo $this->layout()->content; ?>
+                </td>
+           
+           
+        </tr>
+       
+      </table>

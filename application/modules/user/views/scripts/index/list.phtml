@@ -1,0 +1,38 @@
+<div style="width:100%;">
+    <div class="header">User List</div>
+    <?php
+#print_r($this->projectList); 
+    $rights = explode(",", Zend_Auth::getInstance()->getIdentity()->rights);
+    if (in_array(14, $rights)) {
+        ?> 
+
+        <form id="projectlistform" >
+            <select name="projectlist" id="projectlist">
+                <option value="0">All</option>
+                <?php foreach ($this->projectList as $project): ?> 
+                    <option <?php
+                    if ($_REQUEST['projectlist'] == $project->id) {
+                        echo 'selected';
+                    }
+                    ?> value= "<?php echo $project->id ?>"><?php echo $project->name ?></option>
+        <?php endforeach; ?>
+            </select></form>
+        <?php
+    }
+    echo $this->headScript();
+    echo $this->grid;
+    ?>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#projectlist").change(function () {
+            $("#projectlistform").submit();
+        });
+
+        if ($(".basGrid tr td div").html() == 'admin')
+        {
+            $(".basGrid tr td div").html('Escrow Agent');
+        }
+
+    });
+</script>

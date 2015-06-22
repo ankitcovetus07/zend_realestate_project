@@ -1,0 +1,308 @@
+<?php error_reporting(0); ?><!DOCTYPE html>
+<html>
+     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Project</title>
+		<link rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/css/jquery-ui.css">
+        
+        <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/jquery.js"></script>
+        <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/bvb_grid.js"></script>
+		<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/jquery.validate.js"></script>
+        
+		<script src="<?php echo $this->baseUrl(); ?>/js/jquery-ui.js"></script>
+		<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/jquery.validate.js"></script>
+        <link href="<?php echo $this->baseUrl(); ?>/css/grid.css" rel="stylesheet" type="text/css"/>
+        <script src="<?php echo $this->baseUrl(); ?>/js/parsley.js"></script>
+   <style>body{margin:0px; padding:0px;} </style>
+    </head>
+    <body>
+    <?php #echo $this->baseUrl(); ?>
+    <table style="height:800px;" height="100%" width="100%" cellspacing="0">
+        <tr style="background-color:#E5E5E5;">
+            <td colspan="2" style="height:80px;" align="center">
+                <div style="font-size:28px;">Property</div>
+            </td>
+            <td style="width:100px;">
+                <span style="float:right;font-size:18px;">
+                 <?php if(Zend_Auth::getInstance()->hasIdentity()):?>
+                    <table>
+                        <tr><td align="center"><?php echo ucfirst(Zend_Auth::getInstance()->getIdentity()->first_name);?>(<?php  if(Zend_Auth::getInstance()->getIdentity()->type=='admin'){echo 'Escrow Agent';}else{echo Zend_Auth::getInstance()->getIdentity()->type;}?>)</td></tr>
+                        <tr><td align="center"><img style="" src="<?php echo $this->baseUrl(); ?>/images/login_male.png" /></td></tr>
+                        <tr><td align="center"></td></tr>
+                        <tr><td align="center"><a href="<?php echo $this->baseUrl(); ?>/user/auth/logout">Logout</a></td></tr>
+                    </table>
+                 <?php endif;?>
+                </span>
+            </td>
+        </tr> 
+        <?php foreach ($this->message() as $mes): ?>
+        <tr>
+            <td></td>
+            <td colspan="2" align="center">
+                <span><?php echo $mes; ?></span>
+            </td>
+        </tr>
+         <?php 
+			endforeach;
+            $auth = Zend_Auth::getInstance();
+                        $rights=explode(",",Zend_Auth::getInstance()->getIdentity()->rights);
+         ?>
+        <tr>
+            <td style="width:250px;background-color:#ede9df;vertical-align: top;" rowspan="4" nowrap>
+                <?php if(Zend_Auth::getInstance()->hasIdentity()) :?>   
+                <table width="100%">
+			<?php if(Zend_Auth::getInstance()->getIdentity()->type!="salesagent"){?>
+                    <tr style="background-color:#800000">
+                        <td style="height:30px;" ><span class="listHeader">Project</span></td>
+                    </tr>
+                    <tr style="background-color:#E5E5E5">
+                        <td style="height:30px;">
+                            <span class="listItem">
+                                <a href="<?php echo $this->baseUrl(); ?>/project/index/list" >Overview</a>
+                            </span>
+                        </td>
+                    </tr>
+                    
+                 <tr style="background-color:#E5E5E5">
+                        <td style="height:30px;">
+                            <span class="listItem">
+                                <a href="<?php echo $this->baseUrl(); ?>/project/index/addproject" >Add</a>
+                            </span>
+                        </td>
+                    </tr>
+                  
+                <tr style="background-color:#E5E5E5">
+                        <td style="height:30px;">
+                            <span class="listItem">
+<a href="<?php echo $this->baseUrl(); ?>/project/index/tarion/id/1">Change Tarion</a></span>
+							
+                        </td>
+                    </tr>	
+                    
+                    <?php } ?>
+                    <tr style="background-color:#800000">
+                        <td style="height:30px;"><span class="listHeader">User</span></td>
+                    </tr>
+				
+
+                    <tr style="background-color:#E5E5E5">
+                        <td style="height:30px;">
+                            <div class="listItem">
+                                <a href="<?php echo $this->baseUrl(); ?>/user/index/list">Overview</a>
+                            </div>
+                        </td>
+                    </tr>
+                <?php  
+                   ?>
+                   <?php #if(Zend_Auth::getInstance()->getIdentity()->type=="superadmin" ||(Zend_Auth::getInstance()->getIdentity()->type=="salesagent" && (in_array(11,$rights) || in_array(12,$rights))))
+                   {?> 
+                    <tr style="background-color:#E5E5E5">
+                        <td style="height:30px;">
+                            <span class="listItem">
+                                <a href="<?php echo $this->baseUrl(); ?>/user/index/searchbyemail">Search or Add User</a>
+                            </span>
+                        </td>
+                    </tr>
+				  <?php } ?>
+                    <tr style="display: none;"  style="background-color:#E5E5E5">
+                        <td style="height:30px;">
+                            <span class="listItem">
+                                <a href="<?php echo $this->baseUrl(); ?>/user/index/update-password" >Change password</a>
+                            </span>
+                        </td>
+                    </tr>
+			
+                <?php  { ?>
+                    <tr style="background-color:#800000">
+                        <td style="height:30px;" ><span class="listHeader">Purchaser</span></td>
+                    </tr> 
+                
+                <?php } { ?>
+                    <tr style="background-color:#E5E5E5">
+                        <td style="height:30px;">
+                            <span class="listItem">
+                                <a href="<?php echo $this->baseUrl(); ?>/client/index/list" >Overview</a>
+                            </span>
+                        </td>
+                    </tr>
+                <?php }  { ?>
+                    <tr style="background-color:#E5E5E5">
+                        <td style="height:30px;">
+                            <span class="listItem">
+                                <a href="<?php echo $this->baseUrl(); ?>/client/index/search" >Add</a>
+                            </span>
+                        </td>
+                    </tr>
+					<?php }  { ?>
+                    <tr style="background-color:#800000">
+                        <td style="height:30px;" ><span class="listHeader">Report</span></td>
+                    </tr>
+                    <?php } 
+                    if(Zend_Auth::getInstance()->getIdentity()->type=="superadmin" || in_array(41,$rights)){ ?>
+                    <tr style="background-color:#E5E5E5">
+                        <td style="height:30px;">
+                            <span class="listItem">
+                                <a href="<?php echo $this->baseUrl(); ?>/report/index/report-all" >Report All</a>
+                            </span>
+                        </td>
+                    </tr>
+                    <?php }  
+                    if(Zend_Auth::getInstance()->getIdentity()->type=="superadmin" || in_array(42,$rights)){ ?>
+                    <tr style="background-color:#E5E5E5">
+                        <td style="height:30px;">
+                            <span class="listItem">
+                                <a href="<?php echo $this->baseUrl(); ?>/report/index/client" >Purchaser Report</a>
+                            </span>
+                        </td>
+                    </tr>
+                    <?php }  
+                    if(Zend_Auth::getInstance()->getIdentity()->type=="superadmin" || in_array(43,$rights)){ ?>
+                    <tr style="background-color:#E5E5E5">
+                        <td style="height:30px;">
+                            <span class="listItem">
+                                <a href="<?php echo $this->baseUrl(); ?>/report/index/monthly" >Monthly Report</a>
+                            </span>
+                        </td>
+                    </tr>
+					<?php } ?>
+                </table>
+                 <?php endif;?>   
+            </td>
+            
+                <td colspan="2" style="vertical-align:top;padding-left:20px;">
+                <?php echo $this->layout()->content; ?>
+                </td>
+           
+           
+        </tr>
+       
+      </table>
+    </body>
+</html>
+<?php
+if(Zend_Auth::getInstance()->getIdentity()->type=="superadmin")
+{?>
+    <script>
+    $(document).ready(function(){
+       // $("form input:checkbox").attr("checked","checked"); 
+        $("#password").val(""); 
+         $("#pass").hide();  
+    });
+    </script>
+<?php }
+
+ ?>
+ <script> 
+$(document).ready(function(){
+   $('.editboxes').hide(); <?php
+if(Zend_Auth::getInstance()->getIdentity()->type=="superadmin" || Zend_Auth::getInstance()->getIdentity()->type=="admin")
+{?>
+    /*if($( "select#type option:selected").val()=='salesagent1')
+    {
+            $( "#rights-element label:nth-child(11)" ).hide(); 
+            $( "#rights-element label:nth-child(12)" ).hide(); 
+            $( "#rights-element label:nth-child(13)" ).hide(); 
+            $( "#rights-element label:nth-child(14)" ).hide(); 
+            $( "#rights-element label:nth-child(15)" ).hide(); 
+            $( "#rights-element label:nth-child(16)" ).hide(); 
+            $( "#rights-element label:nth-child(17)" ).hide(); 
+            $( "#rights-element label:nth-child(18)" ).hide(); 
+            $( "#rights-element label:nth-child(19)" ).hide(); 
+        
+    }
+    $("select#type").change(function(){ 
+        if($("select#type").val()=='admin1')
+        {
+            $( "#rights-element label:nth-child(11)" ).show(); 
+            $( "#rights-element label:nth-child(12)" ).show(); 
+            $( "#rights-element label:nth-child(13)" ).show();
+            $( "#rights-element label:nth-child(14)" ).show();
+            $( "#rights-element label:nth-child(15)" ).show();
+            $( "#rights-element label:nth-child(16)" ).show();
+            $( "#rights-element label:nth-child(17)" ).show();
+            $( "#rights-element label:nth-child(18)" ).show();
+            $( "#rights-element label:nth-child(19)" ).show();
+        }
+        else
+        {
+            $( "#rights-element label:nth-child(11)" ).hide(); 
+            $( "#rights-element label:nth-child(12)" ).hide(); 
+            $( "#rights-element label:nth-child(13)" ).hide(); 
+            $( "#rights-element label:nth-child(14)" ).hide(); 
+            $( "#rights-element label:nth-child(15)" ).hide(); 
+            $( "#rights-element label:nth-child(16)" ).hide(); 
+            $( "#rights-element label:nth-child(17)" ).hide(); 
+            $( "#rights-element label:nth-child(18)" ).hide(); 
+            $( "#rights-element label:nth-child(19)" ).hide(); 
+        }*/
+  
+    <?php }
+
+ ?>
+   $("div").each(function(){
+        if($(this).html()=='admin')
+            { 
+                $(this).html('Escrow Agent');
+            } 
+    });
+});
+</script> 
+<style>
+<?php for($i=1;$i<=100;$i++){?>
+#rights-<?php echo $i; ?>{margin-left:34px !important;}
+<?php } ?>
+
+.filters,#rights-1,#rights-2,#rights-3,#rights-4{display:none !important;}
+.btn {
+    -moz-user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857;
+    margin-bottom: 0;
+    padding: 6px 12px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+.btn-default {
+    background-color: #fff;
+    border-color: #ccc;
+    color: #333;
+}
+.btn-primary {
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    color: #fff;
+}
+.btn-success {
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+    color: #fff;
+}
+.btn-info {
+    background-color: #5bc0de;
+    border-color: #46b8da;
+    color: #fff;
+}
+.btn-warning {
+    background-color: #f0ad4e;
+    border-color: #eea236;
+    color: #fff;
+}
+.btn-danger {
+    background-color: #d9534f;
+    border-color: #d43f3a;
+    color: #fff;
+}
+</style>
+<script>
+ $(document).ready(function () {
+            $('#submit').attr('class','btn btn-success');
+        });
+</script>

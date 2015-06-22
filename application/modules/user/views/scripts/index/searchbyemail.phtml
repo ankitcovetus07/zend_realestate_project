@@ -1,0 +1,50 @@
+
+<?php
+if (isset($_POST) && (count($_POST) > 0)) {
+    if (isset($this->showemaillist['pid']) && !empty($this->showemaillist['pid'])) {
+        ?>
+        <div id="dataGridDepartment"><div class="basGrid"><table><thead><tr><th>First name</th>
+                            <th>Last Name</th>
+                            <th>Email-address</th>
+                            <th>Type</th>
+
+                            <th>    </th>
+                        </tr></thead><tbody><tr><?php
+                            $pid = $this->showemaillist['pid'];
+                            echo '<tr>';
+                            echo '<td>' . $this->showemaillist['first_name'] . '</td>';
+                            echo '<td>' . $this->showemaillist['last_name'] . '</td>';
+                            echo '<td>' . $this->showemaillist['email_address'] . '</td>';
+                            echo '<td>' . $this->showemaillist['type'] . '</td>';
+                            if ($_SESSION['Zend_Auth'][storage]->type != 'salesagent') {
+                                echo '<td><a href="' . $this->baseUrl() . '/user/index/edit/id/' . $pid . '">ADD</a></td>';
+                            }
+                            echo '</tr>';
+
+                            echo '</tbody></table></div></div>';
+                        } else {
+                            echo '<div class="nouser">NO User Available</div>';
+                            ?>    <form method="POST"><table><tr><td>Search Email</td><td><input type="text" name="Email"></td></tr><tr><td></td><td><input type="submit" /></td></tr></table></form>
+                                <?php
+                            }
+                        } else {
+                            ?>
+                <form method="POST"><table><tr><td>Search Email</td><td><input type="text" name="Email"></td></tr><tr><td></td><td><input type="submit" /></td></tr></table></form>
+            <?php } ?>
+            <style>
+                .nouser{background: #800000;
+                        padding: 8px;
+                        margin-top: 15px;
+                        font-size: 21px;
+                        color: #fff;
+                        width: 96%;
+                        text-align: center;
+                        font-weight: bold !important;
+                        font-family: arial;}</style><br /><br />
+                <?php
+                $poss = explode(',', $_SESSION['Zend_Auth'][storage]->rights);
+                echo $pos = strpos($_SESSION['Zend_Auth'][storage]->rights, 11);
+                if ($_SESSION['Zend_Auth'][storage]->type == 'superadmin' || in_array(11, $poss) || $pos > 0 || $_SESSION['Zend_Auth'][storage]->type == 'admin') {
+                    ?>
+                <a href="<?php echo $this->baseUrl(); ?>/user/index/add"><button>New User</button></a> 
+            <?php } ?>

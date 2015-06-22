@@ -1,0 +1,107 @@
+<div id="purchaserPanel" style="display: none; ">
+
+    <input type="hidden" value="0" name="sec_id[]" id="sec_id" />
+    <?php if (is_object($this->client)) : ?>
+        <input type="hidden" value="<?php echo $this->client->id; ?>" name="client_id" />
+        <input type="hidden" value="<?php echo $this->client->project_id; ?>" name="project_id" />
+    <?php endif; ?> 
+    <table>
+        <thead>
+        <th colspan="2">Add Secondary purchaser                    
+            <a href="#" class="close" onclick="javascript:$('#purchaserPanel').css('display', 'none');" style="display: block;float: right;">close</a>
+        </th>
+        </thead>
+        <tr>
+            <td>Type</td>
+            <td>
+                <select name="type_sec[]">
+                    <option value="individual">Individual</option>
+                    <option value="corporation">Corporation</option>
+                    <option value="trustee">Trustee</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>First Name</td>
+            <td><input id="first_name_sec" type="text" name="first_name_sec[]" /></td>
+        </tr>
+        <tr>
+            <td>Last Name</td>
+            <td><input id="last_name_sec" type="text" name="last_name_sec[]" /></td>
+        </tr>
+        <tr>
+            <td>Phone #</td>
+            <td><input id="phone_number_sec" type="text" name="phone_number_sec[]" /></td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><input id="email_address_sec" type="text" name="email_address_sec[]" /></td>
+        </tr>
+        <tr>
+            <td>Current Mailing Address</td>
+            <td><input id="address_sec" type="text" name="address_sec[]" /></td>
+        </tr>
+        <tr>
+            <td>Social Insurance Number</td>
+            <td><input id="sin_sec" type="text" name="sin_number_sec[]" /></td>
+        </tr>
+        <tr>
+            <td style="display:none;" colspan="2"><input type="button" value="submit" onclick="javascript:addSecondaryPurchaser();" /></td>
+        </tr>
+    </table> 
+
+</div>
+<div id="show_purchase"></div>
+<div id="purchaserPanels" style="display: none; ">
+
+    <input type="hidden" value="0" name="id" id="sec_id" />
+    <?php if (is_object($this->client)) : ?>
+        <input type="hidden" value="<?php echo $this->client->id; ?>" name="client_id" />
+        <input type="hidden" value="<?php echo $this->client->project_id; ?>" name="project_id" />
+    <?php endif; ?> 
+    <table>
+        <thead>
+        <th colspan="2">Add Secondary purchaser                    
+            <a href="#" class="close" onclick="javascript:$('#purchaserPanel').css('display', 'none');" style="display: block;float: right;">close</a>
+        </th>
+        </thead>
+        <tr>
+            <td>Type</td>
+            <td>
+                <select name="type_sec[]">
+                    <option value="individual">Individual</option>
+                    <option value="corporation">Corporation</option>
+                    <option value="trustee">Trustee</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>First Name</td>
+            <td><input id="first_name_sec" type="text" name="first_name_sec[]" /></td>
+        </tr>
+        <tr>
+            <td>Last Name</td>
+            <td><input id="last_name_sec" type="text" name="last_name_sec[]" /></td>
+        </tr>
+        <tr>
+            <td>Phone #</td>
+            <td><input id="phone_number_sec" type="text" name="phone_number_sec[]" /></td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><input id="email_address_sec" type="text" name="email_address_sec[]" /></td>
+        </tr>
+        <tr>
+            <td>Address</td>
+            <td><input id="address_sec" type="text" name="address_sec[]" /></td>
+        </tr>
+        <tr>
+            <td>Social Insurance Number</td>
+            <td><input id="sin_sec" type="text" name="sin_number_sec[]" /></td>
+        </tr>
+
+    </table> 
+
+</div>

@@ -1,0 +1,268 @@
+<table style="width:100%;">
+    <tr style="width: 150px;">
+        <td align="center"><h1>Logo</h1></td>
+    </tr>
+    <tr><td>Project:<table width:300px><tr><td><form id="projectlistform" >
+<select name="projectlist" id="projectlist">
+
+        <?php foreach($this->projectList as $project):?> 
+            <option <?php if($_REQUEST['projectlist']==$project->id){ echo 'selected';}?> value= "<?php echo $project->id?>"><?php echo $project->name?></option>
+        <?php endforeach; ?>
+</select></form></td></tr></table></td><td></td></tr>
+    <tr>
+        <td>
+            <table width="100%" border="1" class="basGrid">
+                <tr>
+                    <td colspan="3"><h3>Property</h3></td>
+                    <td><h3>Date</h3></td>
+                    <td colspan="4" align="center"><h3>Agreement of Purchase & Sale</h3></td>
+                    <td><h3>Payment</h3></td>
+                    <td colspan="12" align="center"><h3>Purchase deposits</h3></td>
+                    <td colspan="10" align="center"><h3>Upgrade deposits</h3></td>
+                </tr>
+                <tr>
+                    <td colspan="3"><b>Suite or Lot</b></td>
+                    <td><b>Date</b></td>
+                    <td><b>Terminated</b></td>
+                    <td colspan="2"><b>Purchasers</b></td>
+                    <td><b>Price</b></td>
+                    <td><b>Chq. #/Wire</b></td>
+                    <td colspan="2"><b>Received</b></td>
+                    <td colspan="3"><b>Returned</b></td>
+                    <td colspan="4"><b>Released</b></td>
+                    <td colspan="2"><b>Refunded</b></td>
+                    <td><b>Total</b></td>
+                    <td colspan="2"><b>Received</b></td>
+                    <td colspan="3"><b>Returned</b></td>
+                    <td colspan="2"><b>Released</b></td>
+                    <td colspan="2"><b>Refunded</b></td>
+                    <td><b>Total</b></td>
+                </tr>
+                <tr>
+                    <td>Number</td>
+                    <td>Unit</td>
+                    <td>Level</td>
+                    <td>MM/DD/YYYY</td>
+                    <td>Yes/No</td>
+                    <td colspan="2">Name</td>
+                    <td>Amount</td>
+                    <td>Chq. #/Wire</td>
+                    <td>Amount</td>
+                    <td>Total</td>
+                    <td>NSF</td>
+                    <td>Refunded</td>
+                    <td>Total</td>
+                    <td>Bonded/Tarion</td>
+                    <td>Balance</td>
+                    <td>Excess</td>
+                    <td>Balance</td>
+                    <td>Amount</td>
+                    <td>Total</td>
+                    <td>Net</td>
+                    <td>Amount</td>
+                    <td>Total</td>
+                    <td>NSF</td>
+                    <td>Refunded</td>
+                    <td>Total</td>
+                    <td>Amount</td>
+                    <td>Balance</td>
+                    <td>Amount</td>
+                    <td>Total</td>
+                    <td>Net</td>
+                </tr>
+                <?php 
+                $amount = 0;
+                $returned = 0;
+                $totalTarion = 0;
+                $totalRegular = 0;
+                $totalRegularWithdraw = 0;
+                $totalTarionWithdraw = 0;
+                $upgradeTotal = 0;
+                $upgradeReturnedTotal = 0;
+                $upgradeWithdrawTotal = 0;
+                $totalRefundedAmount = 0;
+                $totalRefundedUpgradeAmount = 0;
+                ;?>
+                <?php foreach($this->paymentData as $key => $payment): ?>
+                <tr>
+                    <?php if($key != 0 && $this->paymentData[$key]['suit_number'] == $this->paymentData[$key-1]['suit_number']): ?>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <?php else :?>
+                    <td><?php echo $payment['suit_number']?></td>
+                    <td><?php echo $payment['suit_unit_number']?></td>
+                    <td><?php echo $payment['suit_level']?></td>
+                    <td><?php echo date('d-m-Y',strtotime($payment['purchase_date']))?></td>
+                    <td></td>
+                    <td colspan="2">
+                        <?php 
+                                echo $payment['last_name'].",".$payment['first_name'];
+                                if(isset($payment['id'])){
+                                        $model= new Application_Model_Secondary();
+                                        $secondaryClientList = $model->findPurchaserByProjectClient($payment['id']);
+                                        foreach($secondaryClientList as $skey => $svalue){
+                                                echo '<br/>'.$svalue['last_name'].",".$svalue['first_name'];
+                                        }
+                                }
+                        ?>
+		    </td>
+                    <td align="right"><?php echo  number_format($payment['purchase_price'], 2, '.', ',')?></td>
+                    <?php endif;?>
+                    <td><?php if(isset($payment['payment_method'][0])) {echo ucfirst($payment['payment_method'][0]).' ' .$payment['cheque_number']; }?></td>
+                    <td align="right">
+                        <?php if($payment['type'] == 'payment' && ($payment['payment_type'] == 'purchase' || $payment['payment_type'] == 'locker' || $payment['payment_type'] == 'parking') && $payment['status'] != 'refunded') :?>
+                            <?php echo  number_format($payment['amount'], 2, '.', ',')?>
+                            <?php $amount += $payment['amount']; ?>
+                        <?php endif;?>
+                    </td>
+                    <td></td>
+                    <td>
+                        <?php if($payment['status'] == 'NSF' && ($payment['payment_type'] == 'purchase' || $payment['payment_type'] == 'locker' || $payment['payment_type'] == 'parking')) :?>
+                            <?php echo  number_format($payment['NSF_fee'], 2, '.', ',')?>
+                            <?php $returned += $payment['amount'] + $payment['NSF_fee']; ?>
+                        <?php endif;?>
+                    </td>
+                    <td>
+                        <?php if($payment['status'] == 'NSF' && ($payment['payment_type'] == 'purchase' || $payment['payment_type'] == 'locker' || $payment['payment_type'] == 'parking')) :?>
+                            <?php echo  number_format($payment['amount'], 2, '.', ',')?>
+                        <?php endif;?>
+                    </td>
+                    <td></td>
+                    <td>
+                        <?php if($payment['type'] == 'withdraw' && $payment['widthdraw_type'] == 'tarion' && $payment['status'] != 'refunded') :?>
+                            <?php echo  number_format($payment['amount'], 2, '.', ',')?>
+                            <?php $totalTarionWithdraw += $payment['amount'];?>
+                        <?php endif;?>
+                    </td>
+                    <td></td>
+                    <td>
+                        <?php if($payment['type'] == 'withdraw' && $payment['widthdraw_type'] == 'regular' && $payment['status'] != 'refunded') :?>
+                            <?php echo  number_format($payment['amount'], 2, '.', ',')?>
+                            <?php $totalRegularWithdraw += $payment['amount'];?>
+                        <?php endif;?>
+                    </td>
+                    <td></td>
+                    <td>
+                        <?php if(($payment['payment_type'] == 'purchase' || $payment['payment_type'] == 'locker' || $payment['payment_type'] == 'parking') && $payment['status'] == 'refunded') :?>
+                            <?php echo  number_format($payment['amount'], 2, '.', ',')?>
+                            <?php $totalRefundedAmount += $payment['amount'];?>
+                        <?php endif;?>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <?php if($payment['type'] == 'payment' && $payment['payment_type'] == 'upgrade' && $payment['status'] != 'refunded') :?>
+                            <?php echo  number_format($payment['amount'], 2, '.', ',')?>
+                            <?php $upgradeTotal += $payment['amount'];?>
+                        <?php endif;?>
+                    </td>
+                    <td></td>
+                    <td>
+                        <?php if($payment['type'] == 'payment' && $payment['payment_type'] == 'upgrade' && $payment['status'] == 'NSF') :?>
+                            <?php echo  number_format($payment['NSF_fee'], 2, '.', ',')?>
+                            <?php $upgradeReturnedTotal += $payment['amount'] + $payment['NSF_fee'];?>
+                        <?php endif;?>
+                    </td>
+                    <td>
+                        <?php if($payment['type'] == 'payment' && $payment['payment_type'] == 'upgrade' && $payment['status'] == 'NSF') :?>
+                            <?php echo  number_format($payment['amount'], 2, '.', ',')?>
+                        <?php endif;?>
+                    </td>
+                    <td></td>
+                    <td>
+                        <?php if($payment['type'] == 'withdraw' && $payment['widthdraw_type'] == 'upgrade' && $payment['status'] != 'refunded') :?>
+                            <?php echo  number_format($payment['amount'], 2, '.', ',')?>
+                            <?php $upgradeWithdrawTotal += $payment['amount'];?>
+                        <?php endif;?>
+                    </td>
+                    <td></td>
+                    <td>
+                        <?php if($payment['payment_type'] == 'upgrade' && $payment['status'] == 'refunded') :?>
+                            <?php echo  number_format($payment['amount'], 2, '.', ',')?>
+                            <?php $totalRefundedUpgradeAmount += $payment['amount'];?>
+                        <?php endif;?>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    
+                    <?php 
+					
+                    if($payment['type']=='payment' && $payment['status'] != 'refunded'){
+                        $totalTarion += $payment['tarion_amount'] ; 
+					}
+                    if($payment['type']=='payment' && $payment['status'] != 'refunded'){
+                        $totalRegular += $payment['regular_amount'] ; 
+					}
+                    ?>
+                </tr>
+                <?php if($key != 0 && isset($this->paymentData[$key+1]) && $this->paymentData[$key]['client_id'] != $this->paymentData[$key+1]['client_id']): ?>
+                <tr class="total" style="background-color: #ccc;font-weight: bold;">
+                    <td colspan="10">&nbsp;</td>
+                    <td  align="right" ><?php echo  number_format($amount, 2, '.', ',')?></td>
+                    <td></td>
+                    <td></td>
+                    <td  align="right" ><?php echo  number_format($returned, 2, '.', ',')?></td>
+                    <td></td>
+                    <td  align="right" ><?php echo  number_format($totalTarion - $totalTarionWithdraw, 2, '.', ',')?></td>
+                    <td></td>
+                    <td  align="right" ><?php echo  number_format($totalRegular - $totalRegularWithdraw, 2, '.', ',')?></td>
+                    <td></td>
+                    <td><?php echo  number_format($totalRefundedAmount, 2, '.', ',')?></td>
+                    <td  align="right" ><?php echo  number_format($amount - $returned - $totalTarionWithdraw - $totalRegularWithdraw - $totalRefundedAmount, 2, '.', ',')?></td>
+                    <td></td>
+                    <td  align="right" ><?php echo  number_format($upgradeTotal, 2, '.', ',')?></td>
+                    <td></td>
+                    <td></td>
+                    <td  align="right" ><?php echo  number_format($upgradeReturnedTotal, 2, '.', ',')?></td>
+                    <td></td>
+                    <td  align="right" ><?php echo  number_format($upgradeTotal - $upgradeWithdrawTotal, 2, '.', ',')?></td>
+                    <td></td>
+                    <td><?php echo  number_format($totalRefundedUpgradeAmount, 2, '.', ',')?></td>
+                    <td><?php echo  number_format($upgradeTotal - $upgradeReturnedTotal - $upgradeWithdrawTotal - $totalRefundedUpgradeAmount, 2, '.', ',')?></td>
+                </tr>
+                <?php $amount = 0; $returned = 0; $totalTarion = 0;
+                $totalRegular = 0;
+                $totalRegularWithdraw = 0;
+                $totalTarionWithdraw = 0; 
+                $upgradeTotal = 0;
+                $upgradeReturnedTotal = 0;
+                $upgradeWithdrawTotal = 0;
+                $totalRefundedAmount = 0;
+                $totalRefundedUpgradeAmount = 0;
+                ?>
+                <?php endif;?>
+                <?php endforeach; ?>
+                <tr class="total" style="background-color: #ccc;font-weight: bold;">
+                    <td colspan="10">&nbsp;</td>
+                    <td  align="right" ><?php echo  number_format($amount, 2, '.', ',')?></td>
+                    <td></td>
+                    <td></td>
+                    <td  align="right" ><?php echo  number_format($returned, 2, '.', ',')?></td>
+                    <td></td>
+                    <td  align="right" ><?php echo  number_format($totalTarion - $totalTarionWithdraw, 2, '.', ',')?></td>
+                    <td></td>
+                    <td  align="right" ><?php echo  number_format($totalRegular - $totalRegularWithdraw, 2, '.', ',')?></td>
+                    <td></td>
+                    <td><?php echo  number_format($totalRefundedAmount, 2, '.', ',')?></td>
+                    <td  align="right" ><?php echo  number_format($amount - $returned - $totalTarionWithdraw - $totalRegularWithdraw, 2, '.', ',')?></td>
+                    <td></td>
+                    <td  align="right" ><?php echo  number_format($upgradeTotal, 2, '.', ',')?></td>
+                    <td></td>
+                    <td></td>
+                    <td  align="right" ><?php echo  number_format($upgradeReturnedTotal, 2, '.', ',')?></td>
+                    <td></td>
+                    <td  align="right" ><?php echo  number_format($upgradeTotal - $upgradeWithdrawTotal, 2, '.', ',')?></td>
+                    <td></td>
+                    <td><?php echo  number_format($totalRefundedUpgradeAmount, 2, '.', ',')?></td>
+                    <td><?php echo  number_format($upgradeTotal - $upgradeReturnedTotal - $upgradeWithdrawTotal - $totalRefundedUpgradeAmount, 2, '.', ',')?></td>
+                 </tr>
+            </table>
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,44 @@
+<link href="<?php echo $this->baseUrl(); ?>/css/grid.css" rel="stylesheet" type="text/css"/>
+<form method="post" action="<?php echo $this->baseUrl(); ?>/payment/index/withdrawsave">
+ <div class="basGrid" >
+    <table>
+        <thead>
+            <th colspan="2">Release  Details</th>
+        </thead>
+        <tr>
+			 <td><?php echo $this->withdrawForm->amount->getLabel();?></td>
+            <td><?php echo $this->withdrawForm->amount;?></td>
+        </tr>	
+		 <tr>
+            <td><?php echo $this->withdrawForm->payment_date->getLabel();?></td>
+            <td><?php echo $this->withdrawForm->payment_date ;?></td>
+        </tr>
+         <tr>
+            <td><?php echo $this->withdrawForm->widthdraw_type->getLabel();?></td>
+            <td><?php echo $this->withdrawForm->widthdraw_type ;?></td>
+        </tr>
+ 	</table>
+	<?php echo $this->withdrawForm->type; ?>
+	<?php echo $this->withdrawForm->client_id; ?>
+	<?php echo $this->withdrawForm->project_id; ?>
+	<?php echo $this->withdrawForm->suit_number; ?>
+	<?php echo $this->withdrawForm->id;?>
+	<?php echo $this->withdrawForm->created_by;?>
+     <div><?php echo $this->withdrawForm->submit; ?><a onclick="resetform()" style="margin-left:10px;" class="btn btn-danger">Cancel</a></div>
+	
+</div>
+</form>
+<style>#submit-element{float: left;}</style>
+<script>
+$(document).ready(function() {
+    $('#submit').attr('class','btn btn-success');
+	// validate the comment form when it is submitted
+	// validate signup form on keyup and submit
+	 $( "#payment_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
+	});
+
+ function resetform()
+   {
+       $('input[type=text]').val('');
+   }
+</script>

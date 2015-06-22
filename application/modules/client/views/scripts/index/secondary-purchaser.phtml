@@ -1,0 +1,138 @@
+<table>
+    <thead>
+    <th colspan="4">Secondary purchaser
+        <input style="display: none;" type="button" value="+" onclick="showSecondaryPurchaser();" style="float:right;">
+    </th>
+
+    <tr>
+        <th>Name</th>
+        <th>E-mail</th>
+        <th>Phone</th>
+        <th>&nbsp;</th>
+    </tr>
+
+</thead>
+<?php
+#echo count($this->purchaserList);
+if (count($this->purchaserList) >= 1) {
+
+
+    foreach ($this->purchaserList as $purchaser) :
+        ?>
+        <tr class="row<?php echo $purchaser->id; ?>">
+            <td>
+                <span id="first_name_<?php echo $purchaser->id; ?>"><?php echo $purchaser->first_name ?></span>
+                <span id="last_name_<?php echo $purchaser->id; ?>"><?php echo $purchaser->last_name ?></span>
+            </td>
+            <td><span id="email_address_<?php echo $purchaser->id; ?>"><?php echo $purchaser->email_address; ?></span></td>
+            <td>
+                <span id="phone_number_<?php echo $purchaser->id; ?>"><?php echo $purchaser->phone_number; ?></span>
+                <input type="hidden" id="address_<?php echo $purchaser->id; ?>" value="<?php echo $purchaser->address; ?>"/>
+                <input type="hidden" id="sin_<?php echo $purchaser->id; ?>" value="<?php echo $purchaser->sin_number; ?>"/>
+            </td>
+            <td>
+                <a style="display:none;" class="edit" href="javascript:void();" onclick="editSecondaryPurchase(<?php echo $purchaser->id; ?>)">
+                    <img src="/public/images/edit.gif" title="Edit" data-fancybox-type="" alt="Edit">
+                </a>
+                <a class="edit" href="/public/client/index/spe/id/<?php echo $purchaser->id; ?>/clientid/<?php echo Zend_Controller_Front::getInstance()->getRequest()->getParam('id'); ?>" >
+                    <img src="/public/images/edit.gif" title="Edit" data-fancybox-type="" alt="Edit">
+                </a>
+                <a id="del" href="javascript:void();" onclick="deleteSecondaryPurchase(<?php echo $purchaser->id; ?>);">
+                    <img src="/public/images/grid_delete.png" title="Delete" data-fancybox-type="" alt="Delete">
+                </a>
+                 <a data-toggle="modal" href="#responsive" >
+                    <img src="/public/images/text.png" title="View " onclick="Showclient(<?php echo $purchaser->id; ?>);" data-fancybox-type="" alt="Delete">
+                </a>
+            </td>
+        </tr>
+    <?php
+    endforeach;
+}else {
+    ?>
+    <tr>
+        <td colspan="3">No  secondary client</td>
+    </tr>
+<?php } ?>
+</table>
+<script>
+    function deleteSecondaryPurchase(clientId)
+    {
+        ids='row'+clientId;
+        $(ids).hide();
+        $.ajax({
+            type: 'post',
+            data: {clientId: clientId},
+            url: '/public/client/index/delete-secondary-purchaser',
+            success: function(res) { 
+                refreshSecondaryPurchaser();
+               
+            }
+        });
+    }
+   
+    function showSecondaryPurchaser()
+    {
+        $('#first_name_sec').val('');
+        $('#last_name_sec').val('');
+        $('#email_address_sec').val('');
+        $('#phone_number_sec').val('');
+        $('#address_sec').val('');
+        $('#sin_sec').val('');
+        $('#purchaserPanel').css('display', 'block');
+    }
+    function editSecondaryPurchase(clientId)
+    {
+        showSecondaryPurchaser();
+        $('#first_name_sec').val($("#first_name_" + clientId).html());
+        $('#last_name_sec').val($("#last_name_" + clientId).html());
+        $('#email_address_sec').val($("#email_address_" + clientId).html());
+        $('#phone_number_sec').val($("#phone_number_" + clientId).html());
+        $('#address_sec').val($("#address_" + clientId).val());
+        $('#sin_sec').val($("#sin_" + clientId).val());
+        $('#sec_id').val(clientId);
+
+    }
+      function Showclient(clientId)
+    {
+       /* #alert(clientId);*/
+        fname='#first_name_'+clientId;
+        lname='#last_name_'+clientId;
+        $("#names").html($(fname).html()+' '+$(lname).html());
+        
+        $.ajax({
+            type: 'post',
+            data: {clientId: clientId},
+            url: '/public/test.php',
+            success: function(res) { 
+               $('.txtboxes').html(res);
+               
+            }
+        });
+    }
+</script>
+<link href="http://getbootstrap.com/2.3.2/assets/css/bootstrap.css" rel="stylesheet" />
+        <link href="http://getbootstrap.com/2.3.2/assets/js/google-code-prettify/prettify.css" rel="stylesheet" />
+        
+
+        <link href="http://sacondo.appstogo.com/public/popup/css/bootstrap-modal.css" rel="stylesheet" />
+
+   
+        <div id="responsive" class="modal hide fade" tabindex="-1" data-width="760">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 id="names"></h3>
+            </div>
+            <div class="modal-body">
+                <div class="row-fluid">
+                    <div class="span12 txtboxes">
+                        
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+       
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script src="http://sacondo.appstogo.com/public/popup/js/bootstrap-modalmanager.js"></script>
+        <script src="http://sacondo.appstogo.com/public/popup/js/bootstrap-modal.js"></script>

@@ -1,0 +1,118 @@
+<script>
+$(document).ready(function() {
+    var max_fields      = 100; //maximum input boxes allowed
+    var wrapper         = $(".input_fields_wrap"); //Fields wrapper
+    var add_button      = $(".add_field_button"); //Add button ID
+   
+    var x = 1; //initlal text box count
+    $(add_button).click(function(e){ //on add input button click
+        e.preventDefault();
+        if(x < max_fields){ //max input box allowed
+            x++; //text box increment
+            $(wrapper).append('<div style="padding:5px;">Level&nbsp;<input type="text" name="levelv[]">&nbsp;Units&nbsp;<input type="text" name="startv[]">&nbsp;to&nbsp;<input type="text" name="toval[]">&nbsp;<a href="#" class="remove_field">Remove</a></div>'); //add input box
+        }
+    });
+   
+    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+        e.preventDefault(); $(this).parent('div').remove(); x--;
+    })
+});
+</script>
+<div style="width:auto;height:600px;">
+    <div class="header">Project Detail</div>
+    <form method="post" action="<?php echo $this->baseUrl(); ?>/project/index/projectdetail/id/<?php echo $this->id;?>">
+	<input type="hidden" value="<?php echo $this->id;?>" name="id">
+    <table cellpadding="5" cellspacing="5" border="0">
+    	<?php if($this->datac->condo=='yes'){?>
+		<tr>
+    		<td>Number of Dwelling Units&nbsp;<input type="text" value="<?php echo $this->data->dwelling_units;?>" name="dwelling_units"></td>
+    	</tr>
+        <tr style="display:none;">
+			<td>
+				<b>Range</b>
+			</td>
+		</tr>
+		<tr style="display:none;">
+			<td>
+			<button class="add_field_button">Add More Fields</button><br>
+				<div class="input_fields_wrap">
+	<?php if(strlen($this->data->vrange)>0){
+		$evrange1 = explode(",", $this->data->vrange);
+		for($r=0;$r<count($evrange1);$r++) 
+		{
+			$evrange2 = explode("_", $evrange1[$r]);
+			echo '<div style="padding:5px;">Level&nbsp;<input type="text" name="levelv[]" value="'.$evrange2[0].'">&nbsp;Units&nbsp;<input type="text" name="startv[]" value="'.$evrange2[1].'">&nbsp;to&nbsp;<input type="text" name="toval[]" value="'.$evrange2[2].'">&nbsp;<a href="#" class="remove_field">Remove</a></div>';
+		}
+		echo '<div style="padding:5px;">Level&nbsp;<input type="text" name="levelv[]">&nbsp;Units&nbsp;<input type="text" name="startv[]">&nbsp;to&nbsp;<input type="text" name="toval[]">&nbsp;<a href="#" class="remove_field">Remove</a></div>';
+	}
+	else
+	{
+		echo '<div style="padding:5px;">Level&nbsp;<input type="text" name="levelv[]">&nbsp;Units&nbsp;<input type="text" name="startv[]">&nbsp;to&nbsp;<input type="text" name="toval[]"></div>';
+	}
+	?>
+   
+</div>
+			</td>
+		</tr>
+		<tr>
+    		<td>Number of Parking Units&nbsp;
+            <lable><input type="radio" checked="checked" class="parking" value="1" name="parking" />Yes</lable>
+            <lable><input  type="radio" class="parking" value="0" name="parking" />No</lable><br />
+            <input type="text" value="<?php echo $this->data->parking_units;?>" id="parking_units" name="parking_units"></td>
+    	</tr>
+		<tr>
+    		<td>Number Storage Units&nbsp;
+            <lable><input type="radio" checked="checked" class="storage" value="1" name="storage" />Yes</lable>
+            <lable><input type="radio" class="storage" value="0" name="storage" />No</lable><br />
+            <input type="text" value="<?php echo $this->data->storage_units;?>" id="storage_units" name="storage_units"></td>
+    	</tr>
+		<?php }else{?>
+		<tr>
+    		<td>Number of Lots&nbsp;<input type="text" value="<?php echo $this->data->number_of_lot;?>" name="number_of_lot"></td>
+    	</tr>
+		<tr>
+			<td>
+				Range&nbsp;<input type="text" name="lot_range_start" value="<?php echo $this->data->lot_range_start;?>">&nbsp;to&nbsp;<input type="text" name="lot_range_end" value="<?php echo $this->data->lot_range_end;?>">
+			</td>
+		</tr>
+		<?php }?>
+		<tr>
+			<td>
+				<input type="submit" name="action" value="Submit">
+			</td>
+		</tr>
+    </table>
+    </form>
+</div>
+<script>
+$(document).ready(function(){
+    if($("#parking_units").val() =="0")
+    {
+        
+        $('input:radio[name="parking"][value="0"]').attr('checked', true);
+        $('#parking_units').hide();
+    }
+        
+     if($("#storage_units").val() =="0")
+    {
+        
+        $('input:radio[name="storage"][value="0"]').attr('checked', true);
+        $('#storage_units').hide();
+    }   
+     
+    $('.parking').on("click",function(){
+       if($(this).val()==1)
+        {$('#parking_units').show();}
+        else
+        {$('#parking_units').hide();}
+    });
+        
+   $('.storage').on("click",function(){
+        
+        if($(this).val()==1)
+        {$('#storage_units').show();}
+        else
+        {$('#storage_units').hide();}
+    });
+   
+});</script>

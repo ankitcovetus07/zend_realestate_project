@@ -1,0 +1,354 @@
+ <link href="<?php echo $this->baseUrl(); ?>/css/grid.css" rel="stylesheet" type="text/css"/>
+<form method="post" onsubmit="return validationjs1()"action="<?php echo $this->baseUrl(); ?>/payment/index/save">
+ <div class="basGrid" >
+    <table>
+        <thead>
+            <th colspan="2">Payment Details</th>
+        </thead>
+         <tr>
+            <td>Bank</td>
+            <td><select name="bankid">
+                        <option <?php if($this->bankidselect==0){echo 'selected="selected"';}?> value = "0">---Select---</option>
+                        <?php foreach ($this->BankList as $Bank): ?> 
+                            <option <?php if($this->bankidselect==$Bank->id){echo 'selected="selected"';}?> value = "<?php echo $Bank->id ?>"><?php echo $Bank->nickname; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </td>
+        </tr>
+        <tr>
+            <td><?php echo $this->paymentForm->payment_type->getLabel();?></td>
+            <td><?php echo $this->paymentForm->payment_type; ?></td>
+        </tr>
+<tr>
+            <td><?php echo $this->paymentForm->trance_date->getLabel();?></td>
+            <td><?php echo $this->paymentForm->trance_date; ?></td>
+        </tr>
+        <tr>
+            <td><?php echo $this->paymentForm->amount->getLabel();?></td>
+            <td><?php echo $this->paymentForm->amount; ?></td>
+        </tr>
+        <tr id="payment_methods">
+            <td><?php echo $this->paymentForm->payment_method->getLabel();?></td>
+            <td><?php echo $this->paymentForm->payment_method; ?></td>
+        </tr>
+		<tr id="payment_statuss">
+			 <td><?php echo $this->paymentForm->status->getLabel();?></td>
+            <td><?php echo $this->paymentForm->status; ?></td>
+        </tr>
+        
+        <tr id="payment_dates">
+
+            <td id="payment_datess"><?php echo $this->paymentForm->payment_date->getLabel();?></td>
+            <td><?php echo $this->paymentForm->payment_date; ?></td>
+
+        </tr>
+        <tr id="cheque_numbers">
+
+            <td ><?php echo $this->paymentForm->cheque_number->getLabel();?></td>
+            <td><?php echo $this->paymentForm->cheque_number; ?></td>
+
+        </tr>
+
+        <tr  id="cc_number">
+         <td><?php echo $this->paymentForm->cc_number->getLabel();?></td>
+            <td><?php echo $this->paymentForm->cc_number; ?></td>
+        </tr>
+        <tr id="cc_expiry">
+            <td><?php echo $this->paymentForm->cc_expiry->getLabel();?></td>
+            <td><?php echo $this->paymentForm->cc_expiry; ?></td>
+        </tr>
+
+        <tr id="cvv_number">
+            <td><?php echo $this->paymentForm->cvv_number->getLabel();?></td>
+            <td><?php echo $this->paymentForm->cvv_number; ?></td>
+        </tr>
+        <!-----------------------Remove--------------------------->
+        
+        <!-----------------------Remove--------------------------->
+
+ <tr><td></td><td>
+	<?php echo $this->paymentForm->type; ?>
+	<?php echo $this->paymentForm->client_id; ?>
+	<?php echo $this->paymentForm->project_id; ?>
+	<?php echo $this->paymentForm->suit_number; ?>
+	<?php echo $this->paymentForm->id;?>
+	<?php echo $this->paymentForm->created_by;?>
+	<?php echo $this->paymentForm->submit; ?><a href="<?php echo $_SERVER['REQUEST_URI']; ?>" style="margin-left:10px;" class="btn btn-danger">Cancel</a></td></tr>
+	</table>
+     
+</div>
+</form>
+ 
+<script>
+$(document).ready(function() {
+      $("#payment_statuss").hide();
+     $("#payment_dates").hide();
+     $("#payment_datess").html("Cheque Date");
+     //$("#cheque_number").hide();
+     $("#cc_number,#cheque_numbers,#payment_dates,#cc_expiry,#cvv_number").hide();
+     
+     $("#payment_method").on("change",function(){
+         if($(this).val()=='visa')
+    {
+        $('#payment_statuss,#cc_number,#payment_dates,#cc_expiry,#cvv_number').show();
+        //alert('test');
+        $('#cc_number td:first').html("Credit Card Number");
+        $('#cc_expiry td:first').html("Credit Card Expiry");
+        $('#cvv_number td:first').html("Credit Card CVV Code");
+    }
+        if($(this).val()=="cheque" || $(this).val()=="bank_draft" || $(this).val()=="Cash_Receipt")
+        {
+           $("#status").html('<option label="Outstanding" value="Outstanding">Outstanding</option><option label="Deposited" value="Processed" selected="selected">Received - Not Deposited</option><option label="Deposited" value="Deposited" selected="selected">Deposited</option><option label="Returned NSF" value="Returned NSF">Returned NSF</option><option label="Refunded" value="refunded">Refunded</option>');
+        }
+        else
+        {
+            $("#status").html('<option label="Outstanding" value="Outstanding">Outstanding</option><option label="Deposited" value="Received - Not Processed" selected="selected">Received - Not Processed</option><option label="Processed" value="Processed" selected="selected">Processed</option><option label="Returned NSF" value="Returned NSF">Declined</option><option label="Refunded" value="refunded">Refunded</option>');
+        }
+        
+        if($(this).val()==0)
+        {
+            $("#payment_statuss").hide();
+            
+        }
+        else
+        {
+            $("#payment_statuss").show();
+        }
+        
+        
+        $("#payment_dates").show();
+       $("#cc_number,#cc_expiry,#cvv_number").hide();
+        if($(this).val()=="cheque")
+        {
+            $("#status option[value='Deposited']").attr('selected', 'selected');
+            $("#payment_datess").html("Cheque Date");
+            $("#cheque_numbers").show();
+        }
+        else
+        {$("#cheque_numbers").hide();}
+        if($(this).val()=="bank_draft")
+        {
+            $("#payment_datess").html("Bank Draft Date");
+            $("#status option[value='Outstanding']").attr('selected', 'selected');
+        }
+        if($(this).val()=="wire_transfer")
+        {
+             $("#payment_datess").html("Wire Transaction Date");
+             $("#status option[value='Processed']").attr('selected', 'selected');
+        }
+        if($(this).val()=="visa")
+        {
+             $("#payment_datess").html("Credit Card Transaction Date");
+             $("#cc_number,#cc_expiry,#cvv_number").show();
+             $("#status option[value='Processed']").attr('selected', 'selected');
+        }
+        if($(this).val()=="Cash_Receipt")
+        {
+             $("#payment_datess").html("Cash Receipt Date");
+             $("#status option[value='Outstanding']").attr('selected', 'selected');
+        }
+        if($(this).val()=="0")
+        {
+             $("#payment_dates").hide();
+             $("#cheque_numbers").hide();
+             $("#status option[value='Outstanding']").attr('selected', 'selected');
+        }
+
+        });
+    $( "#payment_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
+	$("#trance_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
+	
+	 if($("#status").val()=="NSF"){
+	 	$('#NSF_fee_tr').show();
+	}else{
+		$('#NSF_fee_tr').hide();
+	}
+	 if($("#status").val()=="refunded" || $("#status").val()=="NSF"){
+		$('#date_tr').show();
+	 }else{
+		$('#date_tr').hide();
+	 }
+	 if($("#status").val()=="refunded"){
+		$('#datelable').html('Refunded Date');
+	 }
+	 if($("#status").val()=="NSF"){
+		$('#datelable').html('NSF Date');
+	 }
+     
+     /*-----------------------Payment Option Selection----------------------*/
+     
+     if($('#payment_method option:selected').val()=='cheque')
+    {
+        $('#payment_statuss,#payment_dates,#cheque_numbers').show();
+        
+    }
+    if($('#payment_method option:selected').val()=='bank_draft')
+    {
+        $('#payment_statuss,#payment_dates').show();
+    }
+    if($('#payment_method option:selected').val()=='wire_transfer')
+    {
+        $('#payment_statuss,#payment_dates').show();
+    }
+    if($('#payment_method option:selected').val()=='visa')
+    {
+        $('#payment_statuss,#cc_number,#payment_dates,#cc_expiry,#cvv_number').show();
+        //alert('test');
+        $('#cc_number td').html("Credit Card Number");
+        $('#cc_expiry td').html("Credit Card Expiry");
+        $('#cvv_number td').html("Credit Card CVV Code");
+    }
+    if($('#payment_method option:selected').val()=='Cash_Receipt')
+    {
+        $('#payment_statuss,#payment_dates').show();
+    }
+    /*-----------------------Payment Option Selection----------------------*/
+});
+
+$("#payment_method").change(function(){
+   changeLabel($(this).val());
+});
+
+function changeLabel(label)
+{
+    //alert(label);
+    if(label == 'visa'){
+		$("#tr1").show();
+		$("#tr2").show();
+		$("#tr3").show();
+        $("#tr4").show();
+         $("#tr5").show();
+       $("#receiptNO").html("Conformation No");
+       $("#labelPaymentNumber").html("CVV Code");
+       $("#labelPaymentDate").html("Expiry date:");
+
+   }
+   if(label == 'cheque'){
+		$("#tr1").show();
+		$("#tr2").hide();
+		$("#tr3").show();
+        $("#tr4").hide();
+        $("#tr5").hide();
+       $("#labelPaymentNumber").html("Cheque #");
+       $("#labelPaymentDate").html("Cheque date:");
+       $("#labelPaymentDate1").html("Payment date:");
+   }
+   if(label == 'wire_transfer'){
+		$("#tr1").show();
+		$("#tr2").hide();
+		$("#tr3").show();
+        $("#tr4").hide();
+        $("#tr5").hide();
+       $("#labelPaymentNumber").html("Bank wire I.D.");
+       $("#labelPaymentDate").html("Transaction date:");
+
+   }
+   if(label=='cash')
+   {
+		$("#tr1").hide();
+		$("#tr2").hide();
+		$("#tr3").hide();
+        $("#tr4").show();
+        $("#tr5").show();
+        $("#receiptNO").html("Receipt No ");
+        $("#labelPaymentNumber").html("Cheque #");
+   }
+   if(label=='bank_draft'){
+		$("#tr1").show();
+		$("#tr2").hide();
+		$("#tr3").show();
+        $("#tr4").hide();
+        $("#tr5").hide();
+       $("#labelPaymentNumber").html("Cheque #");
+       $("#labelPaymentDate").html("Cheque date:");
+       $("#labelPaymentDate1").html("Payment date:");
+   }
+}
+changeLabel($("#payment_method").val());
+$("#status").change(function(){
+   if($(this).val()=="NSF"){
+		$('#NSF_fee_tr').show();
+   }else{
+	$('#NSF_fee_tr').hide();
+   }
+
+   if($(this).val()=="refunded" || $(this).val()=="NSF"){
+		$('#date_tr').show();
+	 }else{
+		$('#date_tr').hide();
+	 }
+   if($(this).val()=="refunded"){
+		$('#datelable').html('Refunded Date');
+	 }
+	 if($(this).val()=="NSF"){
+		$('#datelable').html('NSF Date');
+	 }
+
+});
+function validationjs()
+{
+    error='';
+    //alert('validation');
+    if((document.getElementById('payment_method').value=='cheque') || (document.getElementById('payment_method').value=='bank_draft') || (document.getElementById('payment_method').value=='wire_transfer'))
+	{   x=document.getElementById('trance_date').value;
+		if (x == null || x == "")
+        {
+            if(document.getElementById('payment_method').value=='wire_transfer')
+            {
+                error+="Transaction date must be filled out\n";
+            }
+            else
+            {
+                error+="Cheque date must be filled out\n";
+            }
+        }
+        y=document.getElementById('cheque_number').value;
+        if (y == null || y == "")
+        {
+            if(document.getElementById('payment_method').value=='wire_transfer')
+            {
+                error+="Cheque # must be filled out\n";
+            }
+            else
+            {
+                error+="Bank wire I.D must be filled out\n";
+            }
+
+        }
+        z=document.getElementById('payment_date').value;
+        if (z == null || z == "")
+        {
+            error+="Payment date  must be filled out\n";
+
+        }
+        if(document.getElementById('payment_method').value=='visa')
+        {
+
+            z=document.getElementById('cheque_number').value;
+            if (z == null || z == "")
+            {
+                error+="Please Enter CC NUMBER \n";
+
+            }
+        }
+        if(error != null && error != "")
+        {
+            alert(error);
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+
+	}
+
+}
+
+
+</script>
+<style>
+    #submit-element{ float:left;}
+    input,select{width:300px;} dd{margin-left:0px;}#submit{width:100px !important;} dd,dt{height: 0px;
+margin: 0px;
+padding: 0px;} dd#submit-element{height: 20px;;}</style>

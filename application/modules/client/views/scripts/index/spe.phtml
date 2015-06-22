@@ -1,0 +1,67 @@
+<?php foreach($this->secpurchaserList as $v){ ?>
+<form action="" method="post">
+<div class="basGrid">
+    
+        <div id="purchaserPanel" style="display: block;">
+
+    <input type="hidden"  name="id" id="sec_id" value="<?php echo $v->id; ?>">
+    <a href="../../../controllers/IndexController.php"></a>
+    <input type="hidden"  name="client_id" value="<?php echo $v->client_id; ?>">
+     
+    <table>
+        <thead>
+        <tr><th colspan="2">Add Secondary purchaser                    
+            <a href="#" class="close" onclick="" style="display: block;float: right;">close</a>
+        </th>
+        </tr></thead>
+        <tbody><tr>
+            <td>Type</td>
+            <td>
+                <select name="type">
+                    <option <?php if($v->type=="individual"){?> selected="selected"<?php } ?> value="individual">Individual</option>
+                    <option <?php if($v->type=="corporation"){?> selected="selected"<?php } ?> value="corporation">Corporation</option>
+                    <option <?php if($v->type=="trustee"){?> selected="selected"<?php } ?> value="trustee">Trustee</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>First Name</td>
+            <td><input id="first_name" type="text" value="<?php echo $v->first_name; ?>"  name="first_name"></td>
+        </tr>
+        <tr>
+            <td>Last Name</td>
+            <td><input id="last_name" type="text"  value="<?php echo $v->last_name; ?>"   name="last_name"></td>
+        </tr>
+        <tr>
+            <td>Phone #</td>
+            <td><input id="phone_number" type="text"  value="<?php echo $v->phone_number; ?>"   name="phone_number"></td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><input id="email_address"  value="<?php echo $v->email_address; ?>"   type="text" name="email_address"></td>
+        </tr>
+        <tr>
+            <td>Address</td>
+            <td><input id="address"  value="<?php echo $v->address; ?>"   type="text" name="address"></td>
+        </tr>
+        <tr>
+            <td>Social Insurance Number</td>
+            <td><input id="sin" type="text"  value="<?php echo $v->sin_number; ?>"   name="sin_number"></td>
+        </tr>
+        <tr>
+            <td style="display:none;" colspan="2"><input type="button" value="submit" onclick="javascript:addSecondaryPurchaser();"></td>
+        </tr>
+    </tbody></table> 
+
+</div>
+    <input  class="btn btn-success"  type="submit"  >  <a class="btn btn-danger" id="cancel">Cancel</a>
+</form>
+<?php } ?>
+<script>
+$(document).ready(function(){
+   $("#cancel").click(function(){
+       $("#purchaserPanel input").val(''); 
+   }) 
+});
+</script> 

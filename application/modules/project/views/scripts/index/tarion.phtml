@@ -1,0 +1,26 @@
+<script src="http://parsleyjs.org/dist/parsley.js"></script>
+<div class="basGrid" style="width:500px;">
+<table>
+        <thead>
+            <th colspan="2">Tarion Amount Edit</th>
+        </thead>
+	<tr><td>
+<form name="tarionform" id="tarionform" action="<?php echo $this->baseUrl(); ?>/project/index/tarionsave" method="post">
+<input type="hidden" name="id" value="<?php echo $this->data['id'];?>" />
+	<div><label>Tarion Amount&nbsp;</label><input data-parsley-required='true'  type="text" name="tarion_amount" value="<?php echo $this->data['tarion_amount'];?>" /> </div>
+	<br/>
+	<input type="submit" name="submit" id="submit" value="submit"><a onclick="resetform()" style="margin-left:10px;" class="btn btn-danger">Cancel</a>
+</form>
+</td>
+</tr>
+</div>
+<script>
+    $('form#tarionform').parsley();
+    $(document).ready(function () {
+            $('#submit').attr('class','btn btn-success');
+        });
+   function resetform()
+   {
+       $('input[type=text]').val('');
+   }
+</script>

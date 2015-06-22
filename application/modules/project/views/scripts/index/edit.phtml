@@ -1,0 +1,71 @@
+
+<?php
+$rights = explode(",", Zend_Auth::getInstance()->getIdentity()->rights);
+if (in_array(22, $rights) || Zend_Auth::getInstance()->getIdentity()->type == "superadmin") {
+    ?>
+    <div class="basGrid" style="width:1000px">
+        <div style="float: left"><?php echo $this->projectForm; ?></div>
+    </div>
+
+    <style>dd,dt{display: none;}</style>
+
+    <div class="basGrid" style="float:left;"><table style="width:550px !important;">
+            <thead><tr><th>Bank NicName</th><th>Name of Bank/Trust company</th><th>Acc. Number</th><th>Action</th></tr></thead><tbody>
+                <?php if (count($this->BankList) > 0) {
+                    
+                    ?>       
+                    <?php
+                    foreach ($this->BankList as $Bank) {
+                        echo '<tr>';
+                        echo '<td>' . $Bank->nickname . '</td>';
+                        echo '<td>' . $Bank->name_of_bank_trust_company . '</td>';
+                        echo '<td>' . $Bank->account_number . '</td>';
+                        echo '<td><a href="/public/project/index/addbank/pid/'.$this->pojectid.'/bankid/'.$Bank->id.'"><img alt="Edit" data-fancybox-type="" title="Edit" src="/public/images/edit.gif"> </a>  <a href="/public/project/index/edit/id/'.$this->pojectid.'/did/'.$Bank->id.'"><img alt="Delete" data-fancybox-type="" title="Delete" src="/public/images/grid_delete.png"></a> </td>';
+                        echo '</tr>';
+                    }
+                    echo '<tr><td colspan="4"><A href="/public/project/index/addbank/pid/'.$this->pojectid.'/bankid/0"  Id="addnew">+ Add New Bank</a></td></tr>';
+                    ?>
+                </tbody></table></div>
+    <?php
+    } else {
+        echo '<tr><td colspan="4">No Data Found <A href="/public/project/index/addbank/pid/'.$this->pojectid.'/bankid/0" Id="addnew">+ Add New Bank</a></td></tr>';
+    }
+} else {
+    ?>
+    <div style="text-align:center;"><h1>You Have No Rights Edit This Project</h1></div>
+<?php } ?>
+<script>
+    $('form#proejctform').parsley();
+    $(document).ready(function () {
+        $('#submit').after('<a onclick="resetform()" style="margin-left:10px;" class="btn btn-danger">Cancel</a>');
+        $('#submit').attr('class','btn btn-success');
+        
+       // $('#address').attr('data-parsley-type', 'alphanum');
+        $('#name').attr('data-parsley-required', 'true');
+        $('#dwellingunits').attr('data-parsley-type', 'digits');
+        $('#numberofparking').attr('data-parsley-type', 'digits');
+        $('#numberstorage').attr('data-parsley-type', 'digits');
+    });
+    function resetform()
+    {
+        $('input[type=text]').val('');
+    }
+
+</script>
+<style>
+    #addnew{background: #e4f5fc; /* Old browsers */
+background: -moz-linear-gradient(top, #e4f5fc 0%, #9fd8ef 46%, #2ab0ed 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e4f5fc), color-stop(46%,#9fd8ef), color-stop(100%,#2ab0ed)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #e4f5fc 0%,#9fd8ef 46%,#2ab0ed 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #e4f5fc 0%,#9fd8ef 46%,#2ab0ed 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, #e4f5fc 0%,#9fd8ef 46%,#2ab0ed 100%); /* IE10+ */
+background: linear-gradient(to bottom, #e4f5fc 0%,#9fd8ef 46%,#2ab0ed 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e4f5fc', endColorstr='#2ab0ed',GradientType=0 ); /* IE6-9 */
+     border: 1px solid;
+    border-radius: 3px;
+    clear: both;
+    display: block;
+    font-family: arial;
+    padding: 5px;
+    width: 103px;
+    cursor: pointer;}</style>

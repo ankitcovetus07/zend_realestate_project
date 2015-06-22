@@ -1,0 +1,29 @@
+<form method="post" action="<?php echo $this->baseUrl();?>/report/index/monthly-preview">
+<table class="basGrid">
+    <tr><td>Project</td><td><select name="projectlist" id="projectlist">
+
+        <?php foreach($this->projectList as $project):?> 
+            <option <?php if($_REQUEST['projectlist']==$project->id){ echo 'selected';}?> value= "<?php echo $project->id?>"><?php echo $project->name?></option>
+        <?php endforeach; ?>
+</select></td></tr>
+    <tr>
+        <td>From date</td>
+        <td><input id="from_date" name="from_date" type="text" /></td>
+    </tr>
+    <tr>
+        <td>To date</td>
+        <td><input id="to_date" name="to_date" type="text" /></td>
+    </tr>
+    <td colspan="2">
+       <input type="submit" value="Submit" />
+    </td>
+</table>
+</form>
+<script>
+    $(document).ready(function() {
+        $("#from_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
+        $("#to_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
+});
+</script>
+
+

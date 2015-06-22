@@ -1,0 +1,34 @@
+
+<div class="box">
+    <h1>Do You Want To Delete </h1>
+    <?php //echo $this->Userid; ?>
+    <div class="yesno">
+        <div class="yes" onclick='test("<?php echo $this->baseUrl(); ?>/user/index/delete/id/<?php echo $this->Userid; ?>/act/1")'>Yes</div>
+        <div class="no"  onclick='test("<?php echo $this->baseUrl(); ?>/user/index/delete/id/<?php echo $this->Userid; ?>/act/0")'>No</div>
+        <div style="clear:both;"></div>
+    </div>
+    <script>
+        function test(i)
+        {
+            window.location.href = i;
+            window.location.href = i;
+        }</script></div>
+<style>
+    .box{border: 1px solid;
+         width: 340px;
+         text-align: center;
+         padding: 21px;
+         margin: 86px auto;}
+    .box .yes{ float:left;background: #000; cursor: pointer;
+               width: 73px;
+               color: #fff;
+               padding: 6px 0;
+               border-radius: 4px;}
+    .box .no{ float:right;background: #000; cursor: pointer;
+              width: 73px;
+              color: #fff;
+              padding: 6px 0;
+              border-radius: 4px;}
+    .box .yesno{width: 150px;
+                margin: 0 auto;}
+</style>

@@ -1,0 +1,347 @@
+<script src="http://parsleyjs.org/dist/parsley.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#email_address').attr('readonly', true);
+    });
+    function validates()
+    {
+        var s = ($('#email_address').val());
+        if (s)
+        {
+            $.ajax({
+                url: "../../../../../../ajax/ajax.php",
+                type: "POST",
+                data: {email: s},
+                async: true}).done(function (data) {
+
+                if (data)
+                {
+                    $('.err').html("");
+                    $('.err').html("Already Exist");
+                    alert("Already Exist");
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            });
+        }
+        return false;
+    }
+
+</script><div class="basGrid" style="width:900px;">
+
+    <form method="post" action="<?php
+    echo $this->baseUrl();
+    ?>/user/index/save">
+
+        <table>
+
+            <thead>
+
+            <th colspan="2">Add user information</th> 
+
+            </thead>
+            <tr><td>Project</td><td>
+                    <select name="project_id"> 
+                        <?php foreach ($this->projectList as $project): ?> 
+                            <option value = "<?php echo $project->id ?>"><?php echo $project->name ?></option>
+                        <?php endforeach; ?>
+                    </select></td></tr>
+            <tr>
+
+                <td style="width: 150px;"><?php
+                    echo $this->userForm->first_name->getLabel();
+                    ?></td>
+
+                <td><?php
+                    echo $this->userForm->first_name;
+                    ?></td>
+
+            </tr>
+
+            <tr>
+
+                <td><?php
+                    echo $this->userForm->last_name->getLabel();
+                    ?></td>
+
+                <td><?php
+                    echo $this->userForm->last_name;
+                    ?></td>
+
+            </tr>
+
+            <tr>
+
+                <td><?php
+                    echo $this->userForm->email_address->getLabel();
+                    ?></td>
+
+                <td><?php
+                    echo $this->userForm->email_address;
+                    ?></td>
+
+            </tr>
+
+            <tr>
+
+                <td><?php
+                    echo $this->userForm->type->getLabel();
+                    ?></td>
+
+                <td><?php
+                    echo $this->userForm->type;
+                    ?></td>
+
+            </tr>
+
+            <tr class="salesAgentField hideescrow">
+
+                <td><?php
+                    echo $this->userForm->entity->getLabel();
+                    ?></td>
+
+                <td><?php
+                    echo $this->userForm->entity;
+                    ?></td>
+
+            </tr>
+
+            <tr class="salesAgentField">
+
+                <td><?php
+                    echo $this->userForm->phone->getLabel();
+                    ?></td>
+
+                <td><?php
+                    echo $this->userForm->phone;
+                    ?></td>
+
+            </tr>
+            <tr class="salesAgentField">
+
+                <td><?php
+                    echo $this->userForm->agent_name->getLabel();
+                    ?></td>
+
+                <td><?php
+                    echo $this->userForm->agent_name;
+                    ?></td>
+
+            </tr>
+
+            <tr class="salesAgentField">
+
+                <td><?php
+                    echo $this->userForm->position->getLabel();
+                    ?></td>
+
+                <td><?php
+                    echo $this->userForm->position;
+                    ?></td>
+
+            </tr>
+            <tr class="salesAgentField">
+
+                <td><?php
+                    echo $this->userForm->address->getLabel();
+                    ?></td>
+
+                <td><?php
+                    echo $this->userForm->address;
+                    ?></td>
+
+            </tr>
+            <tr >
+
+                <td><?php
+                    echo $this->userForm->password->getLabel();
+                    ?></td>
+
+                <td><?php
+                    echo $this->userForm->password;
+                    ?></td>
+
+            </tr>
+
+
+
+            <tr>
+
+                <td>&nbsp;</td>
+
+                <td><?php
+                    echo $this->userForm->rights;
+                    ?></td> 
+
+            </tr>
+
+
+            <tr>
+
+                <td><?php
+                    echo $this->userForm->id;
+                    ?></td>
+
+
+
+                <td><?php
+                    echo $this->userForm->submit;
+                    ?><a onclick="resetform()" style="margin-left:10px;" class="btn btn-danger">Cancel</a></td>
+
+            </tr>
+
+        </table>
+
+    </form>
+
+
+
+</div> 
+<script>
+   
+   function resetform()
+   {
+       $('#type option[value=0]').attr('selected','selected');
+       
+       $('input[type=text],input[type=password]').val('');
+       $('input[type=checkbox]').removeAttr('checked');
+   }
+</script>
+<style>
+#submit{float:left;}
+    #rights-11,#rights-12,#rights-13,#rights-14,#rights-21,#rights-22,#rights-23,#rights-31,#rights-32,#rights-33,#rights-41,#rights-42,#rights-43{margin-left:34px !important;}
+
+
+
+</style>   
+
+<script src="http://code.jquery.com/jquery-1.11.2.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#rights-label").before("<div id='textdata'></div>");
+
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#password').val('');
+        $('#password').removeAttr("value");
+        $('#password').attr("type", "password");
+    });
+    $("#type").change(function () {
+
+        toggleSalesAgentFields();
+
+    });
+
+
+
+    function toggleSalesAgentFields()
+
+    {
+
+        if ($("#type").val() == 'salesagent')
+            $(".salesAgentField").show();
+
+        else
+            $(".salesAgentField").hide();
+
+    }
+
+    toggleSalesAgentFields();
+
+    $(document).ready(function () {
+        var types = $("#type").find('option:selected').val();
+
+        $('input [type=checkbox]').removeAttr('disabled');
+        if (types == 'admin')
+        {
+            $('#rights-11,#rights-12,#rights-13,#rights-14').prop("checked", true);
+            $('#rights-21,#rights-22,#rights-23,#rights-24').prop("checked", true);
+            $('#rights-31,#rights-32,#rights-33,#rights-34,#rights-35').prop("checked", true);
+            $('#rights-41,#rights-42,#rights-43').prop("checked", true);
+
+            $('#rights-21,#rights-22,#rights-23,#rights-24').removeAttr('disabled');
+            $('#rights-11,#rights-12,#rights-13,#rights-14').removeAttr('disabled');
+            $('#rights-31,#rights-32,#rights-33,#rights-34,#rights-35').removeAttr('disabled');
+            $('#rights-41,#rights-42,#rights-43').removeAttr('disabled');
+            $("#textdata").html("'The Below Applies to an Escrow Agent's Own & Shared Projects!'");
+            $(".salesAgentField").show();
+            $(".hideescrow").hide();
+        }
+        else if (types == 'salesagent')
+        { /*------------------If select Salse Agent then project disabled Checked---------------------------*/
+
+            $('#rights-11,#rights-12,#rights-13,#rights-14').removeAttr('disabled');
+            $('#rights-31,#rights-32,#rights-33,#rights-34,#rights-35').removeAttr('disabled');
+            $('#rights-41,#rights-42,#rights-43').removeAttr('disabled');
+            $('#rights-21,#rights-22,#rights-23,#rights-24').attr('disabled', 'disabled');
+
+            $('#rights-11,#rights-12,#rights-13,#rights-14').prop("checked", true);
+            $('#rights-21,#rights-22,#rights-23,#rights-24').prop("checked", true);
+            $('#rights-31,#rights-32,#rights-33,#rights-34,#rights-35').prop("checked", true);
+            $('#rights-41,#rights-42,#rights-43').prop("checked", true);
+            $("#textdata").html("'The Below Applies only to the Project assigned to above!'");
+            //alert(types+'gg'); 
+
+        }
+
+
+
+        $('#type').change(function () {
+            //alert($(this).val());
+
+            /*------------------If select admin then All Checked---------------------------*/
+            if ($(this).val() == 'admin')
+            {
+                $('#rights-11,#rights-12,#rights-13,#rights-14').prop("checked", true);
+                $('#rights-21,#rights-22,#rights-23,#rights-24').prop("checked", true);
+                $('#rights-31,#rights-32,#rights-33,#rights-34,#rights-35').prop("checked", true);
+                $('#rights-41,#rights-42,#rights-43').prop("checked", true);
+                $('#rights-21,#rights-22,#rights-23,#rights-24').removeAttr('disabled');
+                $('#rights-11,#rights-12,#rights-13,#rights-14').removeAttr('disabled');
+                $('#rights-31,#rights-32,#rights-33,#rights-34,#rights-35').removeAttr('disabled');
+                $('#rights-41,#rights-42,#rights-43').removeAttr('disabled');
+                $("#textdata").html("'The Below Applies to an Escrow Agent's Own & Shared Projects!'");
+                $(".salesAgentField").show();
+                $(".hideescrow").hide();
+            }
+            else if ($(this).val() == 'salesagent')
+            { /*------------------If select Salse Agent then project disabled Checked---------------------------*/
+                $('#rights-11,#rights-12,#rights-13,#rights-14').removeAttr('disabled');
+                $('#rights-31,#rights-32,#rights-33,#rights-34,#rights-35').removeAttr('disabled');
+                $('#rights-41,#rights-42,#rights-43').removeAttr('disabled');
+                $('#rights-21,#rights-22,#rights-23,#rights-24').prop('disabled', true);
+                $('#rights-11,#rights-12,#rights-13,#rights-14').prop("checked", true);
+                $('#rights-21,#rights-22,#rights-23,#rights-24').prop("checked", true);
+                $('#rights-31,#rights-32,#rights-33,#rights-34,#rights-35').prop("checked", true);
+                $('#rights-41,#rights-42,#rights-43').prop("checked", true);
+                $("#textdata").html("'The Below Applies only to the Project assigned to above!'");
+
+
+            }
+            else {
+                $('input[type=checkbox]').removeAttr('checked');
+                $('#rights-11,#rights-12,#rights-13,#rights-14').attr('disabled', 'disabled');
+                $('#rights-21,#rights-22,#rights-23,#rights-24').attr('disabled', 'disabled');
+                $('#rights-31,#rights-32,#rights-33,#rights-34,#rights-35').attr('disabled', 'disabled');
+                $('#rights-41,#rights-42,#rights-43').attr('disabled', 'disabled');
+                $("#textdata").html("");
+                $(".salesAgentField").hide();
+                $(".hideescrow").hide();
+            }
+
+
+        });
+
+    });
+$('form').parsley();
+   $(document).ready(function(){
+       $('#email_address').attr('data-parsley-type','email');
+       $('#email_address,#first_name').attr('data-parsley-required','true');
+   });
+</script>
+
